@@ -1,0 +1,136 @@
+# huffjson.meme — compressed-file JSON format (PLAN.md spec)
+#
+# Document format (exactly what doc_to_json emits, and what the parsers accept):
+#   {"table": [{"ch": 97, "code": "0"}, ...], "bits": "0101", "original_length": 11}
+#
+# Records cannot carry List fields through the built-in JSON writer, and the
+# document must be ONE file, so the document is emitted by string building and
+# parsed by marker extraction: the "table" array is cut out verbatim and read
+# through the built-in Optional record-list reader (read json records), while
+# "bits" and "original_length" are parsed from their markers. Every parse
+# helper returns Optional and yields nothing on corrupt input; the CLI layer
+# turns nothing into a one-line error + exit 1.
+
+use huffcore
+
+record RatioParts:
+    a: Float
+    b: Float
+
+function doc_to_json(table: List<CodeEntry>, bits: String, original_length: Int) -> String:
+    define parts as ""
+    define i as 0
+    while i < length of table:
+        define e: CodeEntry as table[i]
+        if i > 0:
+            set parts to parts + ", "
+        set parts to parts + "{\"ch\": " + text of e.ch + ", \"code\": \"" + e.code + "\"}"
+        add 1 to i
+    return "{\"table\": [" + parts + "], \"bits\": \"" + bits + "\", \"original_length\": " + text of original_length + "}"
+
+function table_from_json(doc: String, scratch: String) -> Optional<List<CodeEntry>>:
+    define p as index of "\"table\": [" in doc
+    if p == -1:
+        return nothing
+    define e as index of "], \"bits\": \"" in doc
+    if e == -1:
+        return nothing
+    if e < p + 10:
+        return nothing
+    define arr as slice doc from (p + 10) to e
+    write file scratch with "[" + arr + "]"
+    define got: Optional<List<CodeEntry>> as read json records CodeEntry from file scratch or else nothing
+    delete file scratch
+    return got
+
+function bits_from_json(doc: String) -> Optional<String>:
+    define e as index of "], \"bits\": \"" in doc
+    if e == -1:
+        return nothing
+    define start as e + 12
+    if start > length of string doc:
+        return nothing
+    define rest as slice doc from start to length of string doc
+    define q as index of "\"" in rest
+    if q == -1:
+        return nothing
+    define bits as slice rest from 0 to q
+    define i as 0
+    while i < length of string bits:
+        define c as char at i of bits
+        if c != "0" and c != "1":
+            return nothing
+        add 1 to i
+    return optional bits
+
+function length_from_json(doc: String) -> Optional<Int>:
+    define p as index of "\"original_length\": " in doc
+    if p == -1:
+        return nothing
+    define start as p + 19
+    if start > length of string doc:
+        return nothing
+    define rest as slice doc from start to length of string doc
+    define e as index of "}" in rest
+    if e == -1:
+        return nothing
+    define raw as slice rest from 0 to e
+    define num as trim raw
+    if length of string num == 0:
+        return nothing
+    define i as 0
+    while i < length of string num:
+        define c as char at i of num
+        if c < "0" or c > "9":
+            return nothing
+        add 1 to i
+    return optional (integer value of num)
+
+function ratio_from_text(doc: String, scratch: String) -> Optional<Float>:
+    write file scratch with doc
+    define got: Optional<RatioParts> as read json record RatioParts from file scratch or else nothing
+    delete file scratch
+    if got is nothing:
+        return nothing
+    define p: RatioParts as value of got
+    return optional (p.a / p.b)
+
+function float_ratio(bits: Int, denom: Int, scratch: String) -> Optional<Float>:
+    if denom == 0:
+        return optional 0.0
+    define doc as "{\"a\": " + text of bits + ", \"b\": " + text of denom + "}"
+    return ratio_from_text(doc, scratch)
+
+function compress_to_json(doc: String) -> Optional<String>:
+    define got: Optional<List<CodeEntry>> as codes_for(doc)
+    if got is nothing:
+        return nothing
+    define t: List<CodeEntry> as value of got
+    define ob: Optional<String> as encode_bits(doc, t)
+    if ob is nothing:
+        return nothing
+    define bits: String as value of ob
+    return optional doc_to_json(t, bits, length of string doc)
+
+function decompress_from_json(doc: String, scratch: String) -> Optional<String>:
+    define ot: Optional<List<CodeEntry>> as table_from_json(doc, scratch)
+    if ot is nothing:
+        return nothing
+    define tbl: List<CodeEntry> as value of ot
+    define ob: Optional<String> as bits_from_json(doc)
+    if ob is nothing:
+        return nothing
+    define bits: String as value of ob
+    if length of tbl > 0 and length of string bits == 0:
+        return nothing
+    define ol: Optional<Int> as length_from_json(doc)
+    if ol is nothing:
+        return nothing
+    define olen: Int as value of ol
+    define od: Optional<String> as decode_bits(bits, tbl)
+    if od is nothing:
+        return nothing
+    define out: String as value of od
+    if length of string out != olen:
+        return nothing
+    return optional out

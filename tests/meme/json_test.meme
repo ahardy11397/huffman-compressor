@@ -1,0 +1,130 @@
+# json_test.meme — compressed-file JSON format (huffjson)
+
+use huffcore
+use huffjson
+
+test doc_to_json_ab_exact:
+    define t: List<CodeEntry> as [CodeEntry(ch=97, code="0"), CodeEntry(ch=98, code="1")]
+    define j as doc_to_json(t, "01", 2)
+    assert j == "{\"table\": [{\"ch\": 97, \"code\": \"0\"}, {\"ch\": 98, \"code\": \"1\"}], \"bits\": \"01\", \"original_length\": 2}"
+
+test doc_to_json_empty:
+    define t: List<CodeEntry> as empty List<CodeEntry>
+    define j as doc_to_json(t, "", 0)
+    assert j == "{\"table\": [], \"bits\": \"\", \"original_length\": 0}"
+
+test compress_to_json_abracadabra:
+    define j: Optional<String> as compress_to_json("abracadabra")
+    assert j is not nothing
+    define doc: String as value of j
+    assert doc == "{\"table\": [{\"ch\": 97, \"code\": \"0\"}, {\"ch\": 114, \"code\": \"10\"}, {\"ch\": 98, \"code\": \"110\"}, {\"ch\": 99, \"code\": \"1110\"}, {\"ch\": 100, \"code\": \"1111\"}], \"bits\": \"01101001110011110110100\", \"original_length\": 11}"
+
+test parse_table_bits_length:
+    define t: List<CodeEntry> as [CodeEntry(ch=97, code="0"), CodeEntry(ch=98, code="1")]
+    define j as doc_to_json(t, "01", 2)
+    create directory "tests/tmp"
+    define ot: Optional<List<CodeEntry>> as table_from_json(j, "tests/tmp/json_test_tbl.tmp")
+    assert ot is not nothing
+    define tbl: List<CodeEntry> as value of ot
+    assert length of tbl == 2
+    define e1: CodeEntry as tbl[1]
+    assert e1.ch == 98
+    assert e1.code == "1"
+    define ob: Optional<String> as bits_from_json(j)
+    assert ob is not nothing
+    assert value of ob == "01"
+    define ol: Optional<Int> as length_from_json(j)
+    assert ol is not nothing
+    assert value of ol == 2
+
+test parse_empty_doc:
+    define t: List<CodeEntry> as empty List<CodeEntry>
+    define j as doc_to_json(t, "", 0)
+    create directory "tests/tmp"
+    define ot: Optional<List<CodeEntry>> as table_from_json(j, "tests/tmp/json_test_empty.tmp")
+    assert ot is not nothing
+    define tbl: List<CodeEntry> as value of ot
+    assert length of tbl == 0
+    define ob: Optional<String> as bits_from_json(j)
+    assert ob is not nothing
+    assert value of ob == ""
+    define ol: Optional<Int> as length_from_json(j)
+    assert ol is not nothing
+    assert value of ol == 0
+
+test json_roundtrip_samples:
+    create directory "tests/tmp"
+    define samples: List<String> as ["", "x", "aaa", "ab", "abracadabra", "the quick brown fox jumps over the lazy dog", "abcdefghijklmnopqrstuvwxyz0123456789"]
+    define n as 0
+    for each s in samples:
+        define j: Optional<String> as compress_to_json(s)
+        assert j is not nothing
+        define back: Optional<String> as decompress_from_json(value of j, "tests/tmp/json_test_rt.tmp")
+        assert back is not nothing
+        assert value of back == s
+        add 1 to n
+    assert n == 7
+
+test truncated_json_fails:
+    define j: Optional<String> as compress_to_json("abracadabra")
+    assert j is not nothing
+    define doc: String as value of j
+    define cut as slice doc from 0 to 30
+    create directory "tests/tmp"
+    define back: Optional<String> as decompress_from_json(cut, "tests/tmp/json_test_trunc.tmp")
+    assert back is nothing
+
+test garbage_json_fails:
+    create directory "tests/tmp"
+    define back: Optional<String> as decompress_from_json("not json at all", "tests/tmp/json_test_garbage.tmp")
+    assert back is nothing
+
+test corrupt_bits_char_fails:
+    create directory "tests/tmp"
+    define doc as "{\"table\": [{\"ch\": 97, \"code\": \"0\"}], \"bits\": \"0a1\", \"original_length\": 2}"
+    define back: Optional<String> as decompress_from_json(doc, "tests/tmp/json_test_badbits.tmp")
+    assert back is nothing
+
+test unknown_byte_in_table_fails:
+    create directory "tests/tmp"
+    define doc as "{\"table\": [{\"ch\": 200, \"code\": \"0\"}], \"bits\": \"00\", \"original_length\": 2}"
+    define back: Optional<String> as decompress_from_json(doc, "tests/tmp/json_test_unkbyte.tmp")
+    assert back is nothing
+
+test length_mismatch_fails:
+    create directory "tests/tmp"
+    define doc as "{\"table\": [{\"ch\": 97, \"code\": \"0\"}], \"bits\": \"0\", \"original_length\": 5}"
+    define back: Optional<String> as decompress_from_json(doc, "tests/tmp/json_test_lenmis.tmp")
+    assert back is nothing
+
+test empty_bits_doc_with_table:
+    create directory "tests/tmp"
+    define doc as "{\"table\": [{\"ch\": 97, \"code\": \"0\"}], \"bits\": \"\", \"original_length\": 0}"
+    define back: Optional<String> as decompress_from_json(doc, "tests/tmp/json_test_ebits.tmp")
+    assert back is nothing
+
+test decompress_prefix_conflict_doc_fails:
+    create directory "tests/tmp"
+    define doc as "{\"table\": [{\"ch\": 97, \"code\": \"0\"}, {\"ch\": 98, \"code\": \"00\"}], \"bits\": \"00\", \"original_length\": 2}"
+    define back: Optional<String> as decompress_from_json(doc, "tests/tmp/json_test_prefix.tmp")
+    assert back is nothing
+
+test float_ratio_math:
+    create directory "tests/tmp"
+    define r: Optional<Float> as float_ratio(23, 88, "tests/tmp/json_test_ratio.tmp")
+    assert r is not nothing
+    define v: Float as value of r
+    assert format v with 4 decimals == "0.2614"
+    define z: Optional<Float> as float_ratio(0, 0, "tests/tmp/json_test_ratio0.tmp")
+    assert z is not nothing
+    assert format value of z with 4 decimals == "0.0000"
+    define one: Optional<Float> as float_ratio(24, 24, "tests/tmp/json_test_ratio1.tmp")
+    assert one is not nothing
+    assert format value of one with 4 decimals == "1.0000"
+
+test float_ratio_corrupt_fails:
+    create directory "tests/tmp"
+    define r: Optional<Float> as ratio_from_text("garbage", "tests/tmp/json_test_badratio.tmp")
+    assert r is nothing
+    define r2: Optional<Float> as ratio_from_text("{\"a\": 1}", "tests/tmp/json_test_badratio2.tmp")
+    assert r2 is nothing

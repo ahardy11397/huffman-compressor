@@ -1,0 +1,170 @@
+# table_test.meme — core Huffman coding module (huffcore)
+# Expected vectors generated from the PLAN.md spec (reference: workspace reference.py;
+# "abracadabra" hand-computed and cross-checked).
+
+use huffcore
+
+test abracadabra_table_exact:
+    define got: Optional<List<CodeEntry>> as codes_for("abracadabra")
+    assert got is not nothing
+    define t: List<CodeEntry> as value of got
+    assert length of t == 5
+    define e0: CodeEntry as t[0]
+    assert e0.ch == 97
+    assert e0.code == "0"
+    define e1: CodeEntry as t[1]
+    assert e1.ch == 114
+    assert e1.code == "10"
+    define e2: CodeEntry as t[2]
+    assert e2.ch == 98
+    assert e2.code == "110"
+    define e3: CodeEntry as t[3]
+    assert e3.ch == 99
+    assert e3.code == "1110"
+    define e4: CodeEntry as t[4]
+    assert e4.ch == 100
+    assert e4.code == "1111"
+
+test abracadabra_bits_exact:
+    define b: Optional<String> as bits_for("abracadabra")
+    assert b is not nothing
+    define bits: String as value of b
+    assert bits == "01101001110011110110100"
+
+test aaa_single_code_zero:
+    define got: Optional<List<CodeEntry>> as codes_for("aaa")
+    assert got is not nothing
+    define t: List<CodeEntry> as value of got
+    assert length of t == 1
+    define e: CodeEntry as t[0]
+    assert e.ch == 97
+    assert e.code == "0"
+    define b: Optional<String> as bits_for("aaa")
+    assert b is not nothing
+    assert value of b == "000"
+
+test empty_text:
+    define got: Optional<List<CodeEntry>> as codes_for("")
+    assert got is not nothing
+    define t: List<CodeEntry> as value of got
+    assert length of t == 0
+    define b: Optional<String> as bits_for("")
+    assert b is not nothing
+    assert value of b == ""
+    define d: Optional<String> as decode_bits("", t)
+    assert d is not nothing
+    assert value of d == ""
+
+test ab_table_and_bits:
+    define got: Optional<List<CodeEntry>> as codes_for("ab")
+    assert got is not nothing
+    define t: List<CodeEntry> as value of got
+    assert length of t == 2
+    define e0: CodeEntry as t[0]
+    assert e0.ch == 97
+    assert e0.code == "0"
+    define e1: CodeEntry as t[1]
+    assert e1.ch == 98
+    assert e1.code == "1"
+    define b: Optional<String> as bits_for("ab")
+    assert b is not nothing
+    assert value of b == "01"
+
+test single_char_x:
+    define got: Optional<List<CodeEntry>> as codes_for("x")
+    assert got is not nothing
+    define t: List<CodeEntry> as value of got
+    assert length of t == 1
+    define e: CodeEntry as t[0]
+    assert e.ch == 120
+    assert e.code == "0"
+    define b: Optional<String> as bits_for("x")
+    assert b is not nothing
+    assert value of b == "0"
+
+test roundtrip_samples:
+    define samples: List<String> as ["", "x", "aaa", "ab", "abracadabra", "the quick brown fox jumps over the lazy dog", "abcdefghijklmnopqrstuvwxyz0123456789"]
+    for each s in samples:
+        define got: Optional<List<CodeEntry>> as codes_for(s)
+        assert got is not nothing
+        define t: List<CodeEntry> as value of got
+        define b: Optional<String> as encode_bits(s, t)
+        assert b is not nothing
+        define bits: String as value of b
+        define d: Optional<String> as decode_bits(bits, t)
+        assert d is not nothing
+        assert value of d == s
+
+test pangram_canonical_order:
+    define got: Optional<List<CodeEntry>> as codes_for("the quick brown fox jumps over the lazy dog")
+    assert got is not nothing
+    define t: List<CodeEntry> as value of got
+    assert length of t == 27
+    define e0: CodeEntry as t[0]
+    assert e0.ch == 32
+    assert e0.code == "110"
+    define e1: CodeEntry as t[1]
+    assert e1.ch == 111
+    assert e1.code == "001"
+    for i from 1 to length of t - 1:
+        define prev: CodeEntry as t[i - 1]
+        define cur: CodeEntry as t[i]
+        assert length of string prev.code < length of string cur.code or (length of string prev.code == length of string cur.code and prev.ch < cur.ch)
+
+test pangram_bits_exact:
+    define b: Optional<String> as bits_for("the quick brown fox jumps over the lazy dog")
+    assert b is not nothing
+    assert value of b == "011011101101011000011011111110010111011111011010110101000011000000001110111000001100011101111010111000000001001010110001010111010010011001101110110101101111111011001001110010110101111001111001"
+
+test digits_table_and_bits:
+    define got: Optional<List<CodeEntry>> as codes_for("abcdefghijklmnopqrstuvwxyz0123456789")
+    assert got is not nothing
+    define t: List<CodeEntry> as value of got
+    assert length of t == 36
+    define e0: CodeEntry as t[0]
+    assert e0.ch == 56
+    assert e0.code == "00000"
+    define elast: CodeEntry as t[length of t - 1]
+    assert elast.ch == 55
+    assert elast.code == "111111"
+    for i from 1 to length of t - 1:
+        define prev: CodeEntry as t[i - 1]
+        define cur: CodeEntry as t[i]
+        assert length of string prev.code < length of string cur.code or (length of string prev.code == length of string cur.code and prev.ch < cur.ch)
+    define b: Optional<String> as bits_for("abcdefghijklmnopqrstuvwxyz0123456789")
+    assert b is not nothing
+    assert value of b == "00010000110010000101001100011101000010010101001011011000110101110011111000010001100101001110100101011011010111110001100111010110111110001110011110101110111111001111011111101111110000000001"
+
+test decode_truncated_bits_fails:
+    define tbl: List<CodeEntry> as [CodeEntry(ch=97, code="00"), CodeEntry(ch=98, code="11")]
+    define r: Optional<String> as decode_bits("0", tbl)
+    assert r is nothing
+
+test decode_bad_bit_char_fails:
+    define tbl: List<CodeEntry> as [CodeEntry(ch=97, code="00"), CodeEntry(ch=98, code="11")]
+    define r: Optional<String> as decode_bits("02", tbl)
+    assert r is nothing
+
+test decode_empty_table_nonempty_bits_fails:
+    define tbl: List<CodeEntry> as empty List<CodeEntry>
+    define r: Optional<String> as decode_bits("0", tbl)
+    assert r is nothing
+
+test decode_unknown_byte_rejected:
+    define tbl: List<CodeEntry> as [CodeEntry(ch=200, code="0")]
+    define r: Optional<String> as decode_bits("0", tbl)
+    assert r is nothing
+
+test decode_duplicate_codes_rejected:
+    define tbl: List<CodeEntry> as [CodeEntry(ch=97, code="0"), CodeEntry(ch=98, code="0")]
+    define r: Optional<String> as decode_bits("00", tbl)
+    assert r is nothing
+
+test decode_prefix_conflict_rejected:
+    define tbl: List<CodeEntry> as [CodeEntry(ch=97, code="0"), CodeEntry(ch=98, code="00")]
+    define r: Optional<String> as decode_bits("00", tbl)
+    assert r is nothing
+
+test unsupported_char_detected:
+    define got: Optional<List<CodeEntry>> as codes_for("héllo")
+    assert got is nothing

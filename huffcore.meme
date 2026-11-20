@@ -1,0 +1,237 @@
+# huffcore.meme — deterministic Huffman coding core for huff (PLAN.md spec)
+#
+# Bytes are Ints 0..255. Supported input characters (documented scope):
+# tab (9), newline (10), carriage return (13), and printable ASCII 32..126.
+# Any other character makes the Optional-returning functions yield nothing;
+# the CLI layer turns that into a one-line error + exit 1.
+#
+# Determinism rules (PLAN.md):
+# - Huffman pop rule: among equal-weight nodes, the node whose subtree
+#   contains the smallest char value goes first; the first-popped child
+#   takes bit 0, the second bit 1.
+# - The table is canonical: sorted by (code length ascending, char value
+#   ascending). Codes are the tree codes, not reassigned.
+# - A file with one distinct byte gets code "0"; an empty file gets an
+#   empty table and empty bits.
+
+record CodeEntry:
+    ch: Int
+    code: String
+
+function alphabet() -> String:
+    return "\t\n\r !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+
+function byte_of_char(c: String) -> Optional<Int>:
+    define a as alphabet()
+    define idx as index of c in a
+    if idx == -1:
+        return nothing
+    if idx == 0:
+        return optional 9
+    if idx == 1:
+        return optional 10
+    if idx == 2:
+        return optional 13
+    return optional (idx + 29)
+
+function char_of_byte(b: Int) -> Optional<String>:
+    define a as alphabet()
+    if b == 9:
+        return optional char at 0 of a
+    if b == 10:
+        return optional char at 1 of a
+    if b == 13:
+        return optional char at 2 of a
+    if b >= 32 and b <= 126:
+        return optional char at (b - 29) of a
+    return nothing
+
+function frequency(text: String) -> Optional<List<Int>>:
+    define freq as empty Map<Int, Int>
+    define i as 0
+    while i < length of string text:
+        define c as char at i of text
+        define ob: Optional<Int> as byte_of_char(c)
+        if ob is nothing:
+            return nothing
+        define b: Int as value of ob
+        set freq[b] to freq[b] default 0 + 1
+        add 1 to i
+    define flat as empty List<Int>
+    for each k in freq:
+        add k to flat
+        add freq[k] to flat
+    return optional flat
+
+# Tree building avoids records-with-List-fields and Optional<Map> (unsupported
+# by the C backend): the active node queue lives in parallel lists, and each
+# node's leaf set is a List<Int> of indices into `leaves`. Selection each step
+# finds the minimum by (weight, minchar); pair keys are unique across active
+# nodes (each char belongs to exactly one subtree), so selection is deterministic.
+function build_table(freq: List<Int>) -> List<CodeEntry>:
+    if length of freq == 0:
+        define empty_table as empty List<CodeEntry>
+        return empty_table
+    define leaves as empty List<Int>
+    define codes as empty List<String>
+    define nw as empty List<Int>
+    define nc as empty List<Int>
+    define nl as empty List<List<Int>>
+    define i as 0
+    while i < length of freq:
+        define k as freq[i]
+        add k to leaves
+        add "" to codes
+        define li as empty List<Int>
+        add (length of leaves - 1) to li
+        add freq[i + 1] to nw
+        add k to nc
+        add li to nl
+        add 2 to i
+    while length of nw > 1:
+        define ia as 0
+        define j as 1
+        while j < length of nw:
+            if nw[j] < nw[ia] or (nw[j] == nw[ia] and nc[j] < nc[ia]):
+                set ia to j
+            add 1 to j
+        define aw as nw[ia]
+        define ac as nc[ia]
+        define al: List<Int> as nl[ia]
+        remove item ia from nw
+        remove item ia from nc
+        remove item ia from nl
+        define ib as 0
+        set j to 1
+        while j < length of nw:
+            if nw[j] < nw[ib] or (nw[j] == nw[ib] and nc[j] < nc[ib]):
+                set ib to j
+            add 1 to j
+        define bw as nw[ib]
+        define bc as nc[ib]
+        define bl: List<Int> as nl[ib]
+        remove item ib from nw
+        remove item ib from nc
+        remove item ib from nl
+        for each li in al:
+            set codes[li] to "0" + codes[li]
+        for each li in bl:
+            set codes[li] to "1" + codes[li]
+        define merged as empty List<Int>
+        for each li in al:
+            add li to merged
+        for each li in bl:
+            add li to merged
+        define mc as ac
+        if bc < ac:
+            set mc to bc
+        add (aw + bw) to nw
+        add mc to nc
+        add merged to nl
+    define root_leaves: List<Int> as nl[0]
+    for each li in root_leaves:
+        if length of string codes[li] == 0:
+            set codes[li] to "0"
+    define tch as empty List<Int>
+    define tcode as empty List<String>
+    for each li in root_leaves:
+        add leaves[li] to tch
+        add codes[li] to tcode
+    if length of tch > 1:
+        for i from 1 to length of tch - 1:
+            define held_ch as tch[i]
+            define held_code as tcode[i]
+            define j as i - 1
+            while j >= 0:
+                define prev_ch as tch[j]
+                define prev_code as tcode[j]
+                if length of string prev_code > length of string held_code or (length of string prev_code == length of string held_code and prev_ch > held_ch):
+                    set tch[j + 1] to prev_ch
+                    set tcode[j + 1] to prev_code
+                    subtract 1 from j
+                else:
+                    break
+            set tch[j + 1] to held_ch
+            set tcode[j + 1] to held_code
+    define table as empty List<CodeEntry>
+    for i from 0 to length of tch - 1:
+        add CodeEntry(ch=tch[i], code=tcode[i]) to table
+    return table
+
+function codes_for(text: String) -> Optional<List<CodeEntry>>:
+    define ofl: Optional<List<Int>> as frequency(text)
+    if ofl is nothing:
+        return nothing
+    define freq: List<Int> as value of ofl
+    return optional build_table(freq)
+
+function encode_bits(text: String, table: List<CodeEntry>) -> Optional<String>:
+    if length of table == 1:
+        define zeros as ""
+        define n as length of string text
+        define i as 0
+        while i < n:
+            set zeros to zeros + "0"
+            add 1 to i
+        return optional zeros
+    define code_of as empty Map<Int, String>
+    for each e in table:
+        set code_of[e.ch] to e.code
+    define bits as ""
+    define i as 0
+    while i < length of string text:
+        define c as char at i of text
+        define ob: Optional<Int> as byte_of_char(c)
+        if ob is nothing:
+            return nothing
+        define b: Int as value of ob
+        if code_of has key b:
+            set bits to bits + code_of[b]
+        else:
+            return nothing
+        add 1 to i
+    return optional bits
+
+function decode_bits(bits: String, table: List<CodeEntry>) -> Optional<String>:
+    define code_to_ch as empty Map<String, Int>
+    for each e in table:
+        if length of string e.code == 0:
+            return nothing
+        if code_to_ch has key e.code:
+            return nothing
+        set code_to_ch[e.code] to e.ch
+    # Codewords must be prefix-free: a shorter code that is a prefix of a
+    # longer one makes the longer one unreachable and greedy decoding would
+    # silently return the wrong bytes. Corrupt-table defense (k <= 98, O(k^2)).
+    for each e in table:
+        for each f in table:
+            if length of string f.code > length of string e.code:
+                define head as slice f.code from 0 to length of string e.code
+                if head == e.code:
+                    return nothing
+    define out as ""
+    define acc as ""
+    define i as 0
+    while i < length of string bits:
+        define c as char at i of bits
+        if c != "0" and c != "1":
+            return nothing
+        set acc to acc + c
+        if code_to_ch has key acc:
+            define b: Int as code_to_ch[acc]
+            define oc: Optional<String> as char_of_byte(b)
+            if oc is nothing:
+                return nothing
+            set out to out + value of oc
+            set acc to ""
+        add 1 to i
+    if length of string acc > 0:
+        return nothing
+    return optional out
+
+function bits_for(text: String) -> Optional<String>:
+    define got: Optional<List<CodeEntry>> as codes_for(text)
+    if got is nothing:
+        return nothing
+    define t: List<CodeEntry> as value of got
+    return encode_bits(text, t)
