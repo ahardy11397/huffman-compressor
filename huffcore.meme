@@ -18,32 +18,18 @@ record CodeEntry:
     ch: Int
     code: String
 
-function alphabet() -> String:
-    return "\t\n\r !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
-
+# The supported characters' byte values ARE their Unicode codepoints, so the
+# char↔Int conversions are direct: `number of` gives the codepoint (9, 10, 13,
+# or 32..126 for supported input) and `character of` maps back.
 function byte_of_char(c: String) -> Optional<Int>:
-    define a as alphabet()
-    define idx as index of c in a
-    if idx == -1:
-        return nothing
-    if idx == 0:
-        return optional 9
-    if idx == 1:
-        return optional 10
-    if idx == 2:
-        return optional 13
-    return optional (idx + 29)
+    define b as number of c
+    if b == 9 or b == 10 or b == 13 or (b >= 32 and b <= 126):
+        return optional b
+    return nothing
 
 function char_of_byte(b: Int) -> Optional<String>:
-    define a as alphabet()
-    if b == 9:
-        return optional char at 0 of a
-    if b == 10:
-        return optional char at 1 of a
-    if b == 13:
-        return optional char at 2 of a
-    if b >= 32 and b <= 126:
-        return optional char at (b - 29) of a
+    if b == 9 or b == 10 or b == 13 or (b >= 32 and b <= 126):
+        return optional character of b
     return nothing
 
 function frequency(text: String) -> Optional<List<Int>>:
@@ -63,8 +49,10 @@ function frequency(text: String) -> Optional<List<Int>>:
         add freq[k] to flat
     return optional flat
 
-# Tree building avoids records-with-List-fields and Optional<Map> (unsupported
-# by the C backend): the active node queue lives in parallel lists, and each
+# Tree building uses parallel scalar lists rather than a record-based tree: as
+# of the 2026-11-20 language hardening, recursive `Optional<Node>` children
+# still fail to compile on the Rust, C++, and C backends (probed on all six
+# targets). The active node queue lives in parallel lists, and each
 # node's leaf set is a List<Int> of indices into `leaves`. Selection each step
 # finds the minimum by (weight, minchar); pair keys are unique across active
 # nodes (each char belongs to exactly one subtree), so selection is deterministic.

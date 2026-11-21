@@ -13,9 +13,11 @@ native binary via `meme build`.
 | `huffcore.meme` | Coding core: byte mapping, frequency counts, deterministic Huffman tree, canonical table, encode/decode |
 | `huffjson.meme` | Compressed-file JSON format: emission, marker parsing, ratio helper |
 | `main.meme` | Thin argv-router CLI |
-| `tests/meme/table_test.meme` | 16 core tests (exact hand-computed vectors) |
+| `tests/meme/table_test.meme` | 18 core tests (exact hand-computed vectors) |
 | `tests/meme/json_test.meme` | 14 format tests (exact document, corruption tolerance) |
-| `tests/meme/huffcore.meme`, `tests/meme/huffjson.meme` | Symlinks to the root modules (module resolution is relative to the importing file) |
+
+Tests import the root modules directly via parent-relative `use ../../huffcore`
+/ `use ../../huffjson` — no symlinks needed.
 
 ## Compressed-file format
 
@@ -69,8 +71,9 @@ huff table <file>                    print the canonical table (one "<ch> <code>
 huff stats <file> <out-file>         write: original bytes / compressed bits / ratio
 ```
 
-- Unknown command or no command → usage, exit 1.
-- Every error is a single `error: ...` line + exit 1.
+- Unknown command or no command → usage on stderr, exit 1.
+- Every error is a single `error: ...` line on stderr (via the language's
+  `print error`) + exit 1.
 - `ratio` = compressed bits ÷ (original bytes × 8), printed via the
   language's `format <x> with 4 decimals` (half-away-from-zero rounding,
   identical on all six targets). An empty file reports `0.0000`.
@@ -100,7 +103,7 @@ Cross-target checks:
 
 ```bash
 uv run --project /mnt/ssd/projects/meme meme test tests/meme --target python  # also rust cpp go c ts
-uv run --project /mnt/ssd/projects/meme meme check main.meme --provider heuristic
+uv run --project /mnt/ssd/projects/meme meme check main.meme
 ```
 
 ## Documented limitations (per plan)
@@ -112,15 +115,14 @@ uv run --project /mnt/ssd/projects/meme meme check main.meme --provider heuristi
   on every backend. (Python/Rust detect invalid UTF-8 at read time; the
   other backends pass raw bytes through and are caught by the character
   check. The plan's scope is ASCII/text files.)
-- **Error channel.** Memelang has no stderr-writing builtin (`fail with`
-  prints to stdout on all six targets), so the plan's "one stderr line"
-  is honored as *one line* + exit 1, on stdout.
+- **Error channel.** Errors and usage go to stderr via the language's
+  `print error` statement, one line + exit 1, on every backend.
 - **No byte I/O.** Memelang strings are byte-oriented but there is no
-  byte→char conversion builtin; `huffcore.meme` builds the byte mapping
-  from one 98-character alphabet literal (`index of` for char→byte,
-  `char at` for byte→char). This is also why the JSON document stores the
-  bit string plainly instead of packed bytes — correctness over ratio,
-  per plan.
+  byte→char conversion builtin; byte values come from the language's
+  `number of <char>` / `character of <int>` codepoint conversions — the
+  supported characters' byte values are exactly their codepoints. This is
+  also why the JSON document stores the bit string plainly instead of
+  packed bytes — correctness over ratio, per plan.
 - **Format strictness.** The parser accepts the exact document shape this
   tool emits (fixed key order and spacing). A semantically identical JSON
   document with different whitespace, extra fields, or trailing junk
@@ -135,15 +137,17 @@ uv run --project /mnt/ssd/projects/meme meme check main.meme --provider heuristi
 
 ## Tests
 
-30 test cases (`meme test tests/meme`), all green on **all six targets**
+34 test cases (`meme test tests/meme`), all green on **all six targets**
 (Python, Rust, C++, Go, C, TypeScript), run in the foreground:
 
 - `table_test.meme` — exact hand-computed `abracadabra` codes and bits;
   `aaa`/single-char code "0"; empty file; `ab`; canonical-order and
   exact-bits assertions for a pangram and a 26-letters+digits file
   (vectors cross-checked by an independent reference implementation);
-  round-trips; truncated bits; non-`0/1` bit characters; empty table
-  with bits; unknown byte in table; duplicate codes; unsupported
+  round-trips; tab/newline/CR round-trip; `number of`/`character of`
+  conversion coverage (tab=9, newline=10, CR=13, `"a"`=97, `~`=126, DEL
+  and byte 200 rejected); truncated bits; non-`0/1` bit characters; empty
+  table with bits; unknown byte in table; duplicate codes; unsupported
   character detection.
 - `json_test.meme` — exact emitted document text (incl. empty); table /
   bits / length parsing; full document round-trips; truncated, garbage,

@@ -6,39 +6,40 @@
 #   huff table <file>
 #   huff stats <file> <out-file>
 #
-# Unknown command (or no command) prints usage and exits 1. Every other
-# error is a single `error: ...` line followed by exit 1. Note: Memelang's
-# `fail with` prints to stdout on every backend (the language has no
-# stderr channel); this is a documented deviation from the plan's stderr
-# wording — see README.md.
+# Unknown command (or no command) prints usage to stderr and exits 1. Every
+# other error is a single `error: ...` line on stderr (via `print error`)
+# followed by exit 1.
 
 use huffcore
 use huffjson
 
 function usage() -> Void:
-    print "usage: huff <command> [args]"
-    print "  huff compress <file> <out-file>      write JSON-compressed document"
-    print "  huff decompress <file> <out-file>    restore the original file exactly"
-    print "  huff table <file>                    print the canonical code table"
-    print "  huff stats <file> <out-file>         write size/ratio report"
+    print error "usage: huff <command> [args]"
+    print error "  huff compress <file> <out-file>      write JSON-compressed document"
+    print error "  huff decompress <file> <out-file>    restore the original file exactly"
+    print error "  huff table <file>                    print the canonical code table"
+    print error "  huff stats <file> <out-file>         write size/ratio report"
 
 function load_text(src: String) -> String:
     define oc: Optional<String> as read string from file src or else nothing
     if oc is nothing:
-        fail with "error: cannot read file " + src
+        print error "error: cannot read file " + src
+        exit with code 1
     return value of oc
 
 function require_table(content: String, src: String) -> List<CodeEntry>:
     define og: Optional<List<CodeEntry>> as codes_for(content)
     if og is nothing:
-        fail with "error: unsupported byte in file " + src
+        print error "error: unsupported byte in file " + src
+        exit with code 1
     return value of og
 
 function compress_file(src: String, dst: String) -> Void:
     define content as load_text(src)
     define oj: Optional<String> as compress_to_json(content)
     if oj is nothing:
-        fail with "error: unsupported byte in file " + src
+        print error "error: unsupported byte in file " + src
+        exit with code 1
     write file dst with value of oj
 
 function decompress_file(src: String, dst: String) -> Void:
@@ -46,7 +47,8 @@ function decompress_file(src: String, dst: String) -> Void:
     define scratch as dst + ".table.tmp"
     define od: Optional<String> as decompress_from_json(content, scratch)
     if od is nothing:
-        fail with "error: corrupt compressed file " + src
+        print error "error: corrupt compressed file " + src
+        exit with code 1
     write file dst with value of od
 
 function table_command(src: String) -> Void:
@@ -60,14 +62,16 @@ function stats_file(src: String, dst: String) -> Void:
     define tbl as require_table(content, src)
     define ob: Optional<String> as encode_bits(content, tbl)
     if ob is nothing:
-        fail with "error: unsupported byte in file " + src
+        print error "error: unsupported byte in file " + src
+        exit with code 1
     define bits: String as value of ob
     define orig as length of string content
     define bit_count as length of string bits
     define scratch as dst + ".ratio.tmp"
     define oratio: Optional<Float> as float_ratio(bit_count, orig * 8, scratch)
     if oratio is nothing:
-        fail with "error: cannot compute ratio for " + src
+        print error "error: cannot compute ratio for " + src
+        exit with code 1
     define ratio: Float as value of oratio
     define ratio_text as format ratio with 4 decimals
     define report as "original bytes: " + text of orig + "\ncompressed bits: " + text of bit_count + "\nratio: " + ratio_text + "\n"
@@ -82,19 +86,23 @@ function main() -> Void:
     match cmd:
         when "compress":
             if argc != 4:
-                fail with "error: compress requires <file> <out-file>"
+                print error "error: compress requires <file> <out-file>"
+                exit with code 1
             call compress_file(argument 2, argument 3)
         when "decompress":
             if argc != 4:
-                fail with "error: decompress requires <file> <out-file>"
+                print error "error: decompress requires <file> <out-file>"
+                exit with code 1
             call decompress_file(argument 2, argument 3)
         when "table":
             if argc != 3:
-                fail with "error: table requires <file>"
+                print error "error: table requires <file>"
+                exit with code 1
             call table_command(argument 2)
         when "stats":
             if argc != 4:
-                fail with "error: stats requires <file> <out-file>"
+                print error "error: stats requires <file> <out-file>"
+                exit with code 1
             call stats_file(argument 2, argument 3)
         otherwise:
             call usage()

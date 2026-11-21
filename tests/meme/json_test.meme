@@ -1,7 +1,7 @@
 # json_test.meme — compressed-file JSON format (huffjson)
 
-use huffcore
-use huffjson
+use ../../huffcore
+use ../../huffjson
 
 test doc_to_json_ab_exact:
     define t: List<CodeEntry> as [CodeEntry(ch=97, code="0"), CodeEntry(ch=98, code="1")]

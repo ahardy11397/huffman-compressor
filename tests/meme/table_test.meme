@@ -2,7 +2,7 @@
 # Expected vectors generated from the PLAN.md spec (reference: workspace reference.py;
 # "abracadabra" hand-computed and cross-checked).
 
-use huffcore
+use ../../huffcore
 
 test abracadabra_table_exact:
     define got: Optional<List<CodeEntry>> as codes_for("abracadabra")
@@ -164,6 +164,38 @@ test decode_prefix_conflict_rejected:
     define tbl: List<CodeEntry> as [CodeEntry(ch=97, code="0"), CodeEntry(ch=98, code="00")]
     define r: Optional<String> as decode_bits("00", tbl)
     assert r is nothing
+
+test char_code_conversions:
+    define ot: Optional<Int> as byte_of_char("\t")
+    assert ot is not nothing
+    assert value of ot == 9
+    define on: Optional<Int> as byte_of_char("\n")
+    assert on is not nothing
+    assert value of on == 10
+    define ocr: Optional<Int> as byte_of_char("\r")
+    assert ocr is not nothing
+    assert value of ocr == 13
+    define oa: Optional<Int> as byte_of_char("a")
+    assert oa is not nothing
+    assert value of oa == 97
+    define otile: Optional<String> as char_of_byte(126)
+    assert otile is not nothing
+    assert value of otile == "~"
+    define odel: Optional<String> as char_of_byte(127)
+    assert odel is nothing
+    define ohi: Optional<Int> as byte_of_char(character of 200)
+    assert ohi is nothing
+
+test control_chars_roundtrip:
+    define s: String as "\t\n\rab\r\n"
+    define got: Optional<List<CodeEntry>> as codes_for(s)
+    assert got is not nothing
+    define t: List<CodeEntry> as value of got
+    define b: Optional<String> as encode_bits(s, t)
+    assert b is not nothing
+    define d: Optional<String> as decode_bits(value of b, t)
+    assert d is not nothing
+    assert value of d == s
 
 test unsupported_char_detected:
     define got: Optional<List<CodeEntry>> as codes_for("héllo")

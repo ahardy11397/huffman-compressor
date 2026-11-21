@@ -2,14 +2,14 @@
   "lockfile_version": 1,
   "entries": {
     "tests/meme/table_test.meme": {
-      "source_sha256": "d0e1f3ad550e5ef1684dd16761d2234246bc7c94d732ff872cd23d76a7c7a4e3",
+      "source_sha256": "35a6194dff73f09f5c78ad0075a002962efe50334ccb5a20e2ab11f66d33701a",
       "provider": "heuristic",
       "resolutions": {},
       "pending_ambiguities": [],
       "draft_items": [
         {
           "op": "import_stmt",
-          "module": "huffcore",
+          "module": "../../huffcore",
           "source_line": 5
         },
         {
@@ -1308,6 +1308,10 @@
               "item_var": "s",
               "index_var": null,
               "collection": "samples",
+              "collection_expr": {
+                "expr_type": "var_ref",
+                "name": "samples"
+              },
               "body": [
                 {
                   "op": "var_decl",
@@ -2795,6 +2799,480 @@
         },
         {
           "op": "test_block_stmt",
+          "name": "char_code_conversions",
+          "body": [
+            {
+              "op": "var_decl",
+              "name": "ot",
+              "var_type": "Optional<Int>",
+              "value": {
+                "expr_type": "call",
+                "func_name": "byte_of_char",
+                "args": [
+                  {
+                    "expr_type": "literal",
+                    "value": "\t",
+                    "data_type": "String"
+                  }
+                ]
+              },
+              "source_line": 169
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "optional_is_nothing",
+                "target": {
+                  "expr_type": "var_ref",
+                  "name": "ot"
+                },
+                "negated": true
+              },
+              "source_line": 170,
+              "source_text": "ot is not nothing"
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "binary_op",
+                "op": "==",
+                "left": {
+                  "expr_type": "optional_unwrap",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "ot"
+                  }
+                },
+                "right": {
+                  "expr_type": "literal",
+                  "value": 9,
+                  "data_type": "Int"
+                }
+              },
+              "source_line": 171,
+              "source_text": "value of ot == 9"
+            },
+            {
+              "op": "var_decl",
+              "name": "on",
+              "var_type": "Optional<Int>",
+              "value": {
+                "expr_type": "call",
+                "func_name": "byte_of_char",
+                "args": [
+                  {
+                    "expr_type": "literal",
+                    "value": "\n",
+                    "data_type": "String"
+                  }
+                ]
+              },
+              "source_line": 172
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "optional_is_nothing",
+                "target": {
+                  "expr_type": "var_ref",
+                  "name": "on"
+                },
+                "negated": true
+              },
+              "source_line": 173,
+              "source_text": "on is not nothing"
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "binary_op",
+                "op": "==",
+                "left": {
+                  "expr_type": "optional_unwrap",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "on"
+                  }
+                },
+                "right": {
+                  "expr_type": "literal",
+                  "value": 10,
+                  "data_type": "Int"
+                }
+              },
+              "source_line": 174,
+              "source_text": "value of on == 10"
+            },
+            {
+              "op": "var_decl",
+              "name": "ocr",
+              "var_type": "Optional<Int>",
+              "value": {
+                "expr_type": "call",
+                "func_name": "byte_of_char",
+                "args": [
+                  {
+                    "expr_type": "literal",
+                    "value": "\r",
+                    "data_type": "String"
+                  }
+                ]
+              },
+              "source_line": 175
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "optional_is_nothing",
+                "target": {
+                  "expr_type": "var_ref",
+                  "name": "ocr"
+                },
+                "negated": true
+              },
+              "source_line": 176,
+              "source_text": "ocr is not nothing"
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "binary_op",
+                "op": "==",
+                "left": {
+                  "expr_type": "optional_unwrap",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "ocr"
+                  }
+                },
+                "right": {
+                  "expr_type": "literal",
+                  "value": 13,
+                  "data_type": "Int"
+                }
+              },
+              "source_line": 177,
+              "source_text": "value of ocr == 13"
+            },
+            {
+              "op": "var_decl",
+              "name": "oa",
+              "var_type": "Optional<Int>",
+              "value": {
+                "expr_type": "call",
+                "func_name": "byte_of_char",
+                "args": [
+                  {
+                    "expr_type": "literal",
+                    "value": "a",
+                    "data_type": "String"
+                  }
+                ]
+              },
+              "source_line": 178
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "optional_is_nothing",
+                "target": {
+                  "expr_type": "var_ref",
+                  "name": "oa"
+                },
+                "negated": true
+              },
+              "source_line": 179,
+              "source_text": "oa is not nothing"
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "binary_op",
+                "op": "==",
+                "left": {
+                  "expr_type": "optional_unwrap",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "oa"
+                  }
+                },
+                "right": {
+                  "expr_type": "literal",
+                  "value": 97,
+                  "data_type": "Int"
+                }
+              },
+              "source_line": 180,
+              "source_text": "value of oa == 97"
+            },
+            {
+              "op": "var_decl",
+              "name": "otile",
+              "var_type": "Optional<String>",
+              "value": {
+                "expr_type": "call",
+                "func_name": "char_of_byte",
+                "args": [
+                  {
+                    "expr_type": "literal",
+                    "value": 126,
+                    "data_type": "Int"
+                  }
+                ]
+              },
+              "source_line": 181
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "optional_is_nothing",
+                "target": {
+                  "expr_type": "var_ref",
+                  "name": "otile"
+                },
+                "negated": true
+              },
+              "source_line": 182,
+              "source_text": "otile is not nothing"
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "binary_op",
+                "op": "==",
+                "left": {
+                  "expr_type": "optional_unwrap",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "otile"
+                  }
+                },
+                "right": {
+                  "expr_type": "literal",
+                  "value": "~",
+                  "data_type": "String"
+                }
+              },
+              "source_line": 183,
+              "source_text": "value of otile == \"~\""
+            },
+            {
+              "op": "var_decl",
+              "name": "odel",
+              "var_type": "Optional<String>",
+              "value": {
+                "expr_type": "call",
+                "func_name": "char_of_byte",
+                "args": [
+                  {
+                    "expr_type": "literal",
+                    "value": 127,
+                    "data_type": "Int"
+                  }
+                ]
+              },
+              "source_line": 184
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "optional_is_nothing",
+                "target": {
+                  "expr_type": "var_ref",
+                  "name": "odel"
+                },
+                "negated": false
+              },
+              "source_line": 185,
+              "source_text": "odel is nothing"
+            },
+            {
+              "op": "var_decl",
+              "name": "ohi",
+              "var_type": "Optional<Int>",
+              "value": {
+                "expr_type": "call",
+                "func_name": "byte_of_char",
+                "args": [
+                  {
+                    "expr_type": "character_of",
+                    "target": {
+                      "expr_type": "literal",
+                      "value": 200,
+                      "data_type": "Int"
+                    }
+                  }
+                ]
+              },
+              "source_line": 186
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "optional_is_nothing",
+                "target": {
+                  "expr_type": "var_ref",
+                  "name": "ohi"
+                },
+                "negated": false
+              },
+              "source_line": 187,
+              "source_text": "ohi is nothing"
+            }
+          ],
+          "source_line": 168
+        },
+        {
+          "op": "test_block_stmt",
+          "name": "control_chars_roundtrip",
+          "body": [
+            {
+              "op": "var_decl",
+              "name": "s",
+              "var_type": "String",
+              "value": {
+                "expr_type": "literal",
+                "value": "\t\n\rab\r\n",
+                "data_type": "String"
+              },
+              "source_line": 190
+            },
+            {
+              "op": "var_decl",
+              "name": "got",
+              "var_type": "Optional<List<CodeEntry>>",
+              "value": {
+                "expr_type": "call",
+                "func_name": "codes_for",
+                "args": [
+                  {
+                    "expr_type": "var_ref",
+                    "name": "s"
+                  }
+                ]
+              },
+              "source_line": 191
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "optional_is_nothing",
+                "target": {
+                  "expr_type": "var_ref",
+                  "name": "got"
+                },
+                "negated": true
+              },
+              "source_line": 192,
+              "source_text": "got is not nothing"
+            },
+            {
+              "op": "var_decl",
+              "name": "t",
+              "var_type": "List<CodeEntry>",
+              "value": {
+                "expr_type": "optional_unwrap",
+                "target": {
+                  "expr_type": "var_ref",
+                  "name": "got"
+                }
+              },
+              "source_line": 193
+            },
+            {
+              "op": "var_decl",
+              "name": "b",
+              "var_type": "Optional<String>",
+              "value": {
+                "expr_type": "call",
+                "func_name": "encode_bits",
+                "args": [
+                  {
+                    "expr_type": "var_ref",
+                    "name": "s"
+                  },
+                  {
+                    "expr_type": "var_ref",
+                    "name": "t"
+                  }
+                ]
+              },
+              "source_line": 194
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "optional_is_nothing",
+                "target": {
+                  "expr_type": "var_ref",
+                  "name": "b"
+                },
+                "negated": true
+              },
+              "source_line": 195,
+              "source_text": "b is not nothing"
+            },
+            {
+              "op": "var_decl",
+              "name": "d",
+              "var_type": "Optional<String>",
+              "value": {
+                "expr_type": "call",
+                "func_name": "decode_bits",
+                "args": [
+                  {
+                    "expr_type": "optional_unwrap",
+                    "target": {
+                      "expr_type": "var_ref",
+                      "name": "b"
+                    }
+                  },
+                  {
+                    "expr_type": "var_ref",
+                    "name": "t"
+                  }
+                ]
+              },
+              "source_line": 196
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "optional_is_nothing",
+                "target": {
+                  "expr_type": "var_ref",
+                  "name": "d"
+                },
+                "negated": true
+              },
+              "source_line": 197,
+              "source_text": "d is not nothing"
+            },
+            {
+              "op": "assert_stmt",
+              "condition": {
+                "expr_type": "binary_op",
+                "op": "==",
+                "left": {
+                  "expr_type": "optional_unwrap",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "d"
+                  }
+                },
+                "right": {
+                  "expr_type": "var_ref",
+                  "name": "s"
+                }
+              },
+              "source_line": 198,
+              "source_text": "value of d == s"
+            }
+          ],
+          "source_line": 189
+        },
+        {
+          "op": "test_block_stmt",
           "name": "unsupported_char_detected",
           "body": [
             {
@@ -2812,7 +3290,7 @@
                   }
                 ]
               },
-              "source_line": 169
+              "source_line": 201
             },
             {
               "op": "assert_stmt",
@@ -2824,19 +3302,19 @@
                 },
                 "negated": false
               },
-              "source_line": 170,
+              "source_line": 202,
               "source_text": "got is nothing"
             }
           ],
-          "source_line": 168
+          "source_line": 200
         }
       ],
-      "canonical_meme": "use huffcore\ntest abracadabra_table_exact:\n    define got: Optional<List<CodeEntry>> as codes_for(\"abracadabra\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 5\n    define e0: CodeEntry as t[0]\n    assert e0.ch == 97\n    assert e0.code == \"0\"\n    define e1: CodeEntry as t[1]\n    assert e1.ch == 114\n    assert e1.code == \"10\"\n    define e2: CodeEntry as t[2]\n    assert e2.ch == 98\n    assert e2.code == \"110\"\n    define e3: CodeEntry as t[3]\n    assert e3.ch == 99\n    assert e3.code == \"1110\"\n    define e4: CodeEntry as t[4]\n    assert e4.ch == 100\n    assert e4.code == \"1111\"\ntest abracadabra_bits_exact:\n    define b: Optional<String> as bits_for(\"abracadabra\")\n    assert b is not nothing\n    define bits: String as value of b\n    assert bits == \"01101001110011110110100\"\ntest aaa_single_code_zero:\n    define got: Optional<List<CodeEntry>> as codes_for(\"aaa\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 1\n    define e: CodeEntry as t[0]\n    assert e.ch == 97\n    assert e.code == \"0\"\n    define b: Optional<String> as bits_for(\"aaa\")\n    assert b is not nothing\n    assert value of b == \"000\"\ntest empty_text:\n    define got: Optional<List<CodeEntry>> as codes_for(\"\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 0\n    define b: Optional<String> as bits_for(\"\")\n    assert b is not nothing\n    assert value of b == \"\"\n    define d: Optional<String> as decode_bits(\"\", t)\n    assert d is not nothing\n    assert value of d == \"\"\ntest ab_table_and_bits:\n    define got: Optional<List<CodeEntry>> as codes_for(\"ab\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 2\n    define e0: CodeEntry as t[0]\n    assert e0.ch == 97\n    assert e0.code == \"0\"\n    define e1: CodeEntry as t[1]\n    assert e1.ch == 98\n    assert e1.code == \"1\"\n    define b: Optional<String> as bits_for(\"ab\")\n    assert b is not nothing\n    assert value of b == \"01\"\ntest single_char_x:\n    define got: Optional<List<CodeEntry>> as codes_for(\"x\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 1\n    define e: CodeEntry as t[0]\n    assert e.ch == 120\n    assert e.code == \"0\"\n    define b: Optional<String> as bits_for(\"x\")\n    assert b is not nothing\n    assert value of b == \"0\"\ntest roundtrip_samples:\n    define list samples as [\"\", \"x\", \"aaa\", \"ab\", \"abracadabra\", \"the quick brown fox jumps over the lazy dog\", \"abcdefghijklmnopqrstuvwxyz0123456789\"]\n    for each s in samples:\n        define got: Optional<List<CodeEntry>> as codes_for(s)\n        assert got is not nothing\n        define list t as value of got\n        define b: Optional<String> as encode_bits(s, t)\n        assert b is not nothing\n        define bits: String as value of b\n        define d: Optional<String> as decode_bits(bits, t)\n        assert d is not nothing\n        assert value of d == s\ntest pangram_canonical_order:\n    define got: Optional<List<CodeEntry>> as codes_for(\"the quick brown fox jumps over the lazy dog\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 27\n    define e0: CodeEntry as t[0]\n    assert e0.ch == 32\n    assert e0.code == \"110\"\n    define e1: CodeEntry as t[1]\n    assert e1.ch == 111\n    assert e1.code == \"001\"\n    for i from 1 to length of t - 1:\n        define prev: CodeEntry as t[i - 1]\n        define cur: CodeEntry as t[i]\n        assert length of string prev.code < length of string cur.code or length of string prev.code == length of string cur.code and prev.ch < cur.ch\ntest pangram_bits_exact:\n    define b: Optional<String> as bits_for(\"the quick brown fox jumps over the lazy dog\")\n    assert b is not nothing\n    assert value of b == \"011011101101011000011011111110010111011111011010110101000011000000001110111000001100011101111010111000000001001010110001010111010010011001101110110101101111111011001001110010110101111001111001\"\ntest digits_table_and_bits:\n    define got: Optional<List<CodeEntry>> as codes_for(\"abcdefghijklmnopqrstuvwxyz0123456789\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 36\n    define e0: CodeEntry as t[0]\n    assert e0.ch == 56\n    assert e0.code == \"00000\"\n    define elast: CodeEntry as t[length of t - 1]\n    assert elast.ch == 55\n    assert elast.code == \"111111\"\n    for i from 1 to length of t - 1:\n        define prev: CodeEntry as t[i - 1]\n        define cur: CodeEntry as t[i]\n        assert length of string prev.code < length of string cur.code or length of string prev.code == length of string cur.code and prev.ch < cur.ch\n    define b: Optional<String> as bits_for(\"abcdefghijklmnopqrstuvwxyz0123456789\")\n    assert b is not nothing\n    assert value of b == \"00010000110010000101001100011101000010010101001011011000110101110011111000010001100101001110100101011011010111110001100111010110111110001110011110101110111111001111011111101111110000000001\"\ntest decode_truncated_bits_fails:\n    define list tbl as [CodeEntry(ch=97, code=\"00\"), CodeEntry(ch=98, code=\"11\")]\n    define r: Optional<String> as decode_bits(\"0\", tbl)\n    assert r is nothing\ntest decode_bad_bit_char_fails:\n    define list tbl as [CodeEntry(ch=97, code=\"00\"), CodeEntry(ch=98, code=\"11\")]\n    define r: Optional<String> as decode_bits(\"02\", tbl)\n    assert r is nothing\ntest decode_empty_table_nonempty_bits_fails:\n    define list tbl as empty List<CodeEntry>\n    define r: Optional<String> as decode_bits(\"0\", tbl)\n    assert r is nothing\ntest decode_unknown_byte_rejected:\n    define list tbl as [CodeEntry(ch=200, code=\"0\")]\n    define r: Optional<String> as decode_bits(\"0\", tbl)\n    assert r is nothing\ntest decode_duplicate_codes_rejected:\n    define list tbl as [CodeEntry(ch=97, code=\"0\"), CodeEntry(ch=98, code=\"0\")]\n    define r: Optional<String> as decode_bits(\"00\", tbl)\n    assert r is nothing\ntest decode_prefix_conflict_rejected:\n    define list tbl as [CodeEntry(ch=97, code=\"0\"), CodeEntry(ch=98, code=\"00\")]\n    define r: Optional<String> as decode_bits(\"00\", tbl)\n    assert r is nothing\ntest unsupported_char_detected:\n    define got: Optional<List<CodeEntry>> as codes_for(\"h\\u00e9llo\")\n    assert got is nothing",
+      "canonical_meme": "use ../../huffcore\ntest abracadabra_table_exact:\n    define got: Optional<List<CodeEntry>> as codes_for(\"abracadabra\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 5\n    define e0: CodeEntry as t[0]\n    assert e0.ch == 97\n    assert e0.code == \"0\"\n    define e1: CodeEntry as t[1]\n    assert e1.ch == 114\n    assert e1.code == \"10\"\n    define e2: CodeEntry as t[2]\n    assert e2.ch == 98\n    assert e2.code == \"110\"\n    define e3: CodeEntry as t[3]\n    assert e3.ch == 99\n    assert e3.code == \"1110\"\n    define e4: CodeEntry as t[4]\n    assert e4.ch == 100\n    assert e4.code == \"1111\"\ntest abracadabra_bits_exact:\n    define b: Optional<String> as bits_for(\"abracadabra\")\n    assert b is not nothing\n    define bits: String as value of b\n    assert bits == \"01101001110011110110100\"\ntest aaa_single_code_zero:\n    define got: Optional<List<CodeEntry>> as codes_for(\"aaa\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 1\n    define e: CodeEntry as t[0]\n    assert e.ch == 97\n    assert e.code == \"0\"\n    define b: Optional<String> as bits_for(\"aaa\")\n    assert b is not nothing\n    assert value of b == \"000\"\ntest empty_text:\n    define got: Optional<List<CodeEntry>> as codes_for(\"\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 0\n    define b: Optional<String> as bits_for(\"\")\n    assert b is not nothing\n    assert value of b == \"\"\n    define d: Optional<String> as decode_bits(\"\", t)\n    assert d is not nothing\n    assert value of d == \"\"\ntest ab_table_and_bits:\n    define got: Optional<List<CodeEntry>> as codes_for(\"ab\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 2\n    define e0: CodeEntry as t[0]\n    assert e0.ch == 97\n    assert e0.code == \"0\"\n    define e1: CodeEntry as t[1]\n    assert e1.ch == 98\n    assert e1.code == \"1\"\n    define b: Optional<String> as bits_for(\"ab\")\n    assert b is not nothing\n    assert value of b == \"01\"\ntest single_char_x:\n    define got: Optional<List<CodeEntry>> as codes_for(\"x\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 1\n    define e: CodeEntry as t[0]\n    assert e.ch == 120\n    assert e.code == \"0\"\n    define b: Optional<String> as bits_for(\"x\")\n    assert b is not nothing\n    assert value of b == \"0\"\ntest roundtrip_samples:\n    define list samples as [\"\", \"x\", \"aaa\", \"ab\", \"abracadabra\", \"the quick brown fox jumps over the lazy dog\", \"abcdefghijklmnopqrstuvwxyz0123456789\"]\n    for each s in samples:\n        define got: Optional<List<CodeEntry>> as codes_for(s)\n        assert got is not nothing\n        define list t as value of got\n        define b: Optional<String> as encode_bits(s, t)\n        assert b is not nothing\n        define bits: String as value of b\n        define d: Optional<String> as decode_bits(bits, t)\n        assert d is not nothing\n        assert value of d == s\ntest pangram_canonical_order:\n    define got: Optional<List<CodeEntry>> as codes_for(\"the quick brown fox jumps over the lazy dog\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 27\n    define e0: CodeEntry as t[0]\n    assert e0.ch == 32\n    assert e0.code == \"110\"\n    define e1: CodeEntry as t[1]\n    assert e1.ch == 111\n    assert e1.code == \"001\"\n    for i from 1 to length of t - 1:\n        define prev: CodeEntry as t[i - 1]\n        define cur: CodeEntry as t[i]\n        assert length of string prev.code < length of string cur.code or length of string prev.code == length of string cur.code and prev.ch < cur.ch\ntest pangram_bits_exact:\n    define b: Optional<String> as bits_for(\"the quick brown fox jumps over the lazy dog\")\n    assert b is not nothing\n    assert value of b == \"011011101101011000011011111110010111011111011010110101000011000000001110111000001100011101111010111000000001001010110001010111010010011001101110110101101111111011001001110010110101111001111001\"\ntest digits_table_and_bits:\n    define got: Optional<List<CodeEntry>> as codes_for(\"abcdefghijklmnopqrstuvwxyz0123456789\")\n    assert got is not nothing\n    define list t as value of got\n    assert length of t == 36\n    define e0: CodeEntry as t[0]\n    assert e0.ch == 56\n    assert e0.code == \"00000\"\n    define elast: CodeEntry as t[length of t - 1]\n    assert elast.ch == 55\n    assert elast.code == \"111111\"\n    for i from 1 to length of t - 1:\n        define prev: CodeEntry as t[i - 1]\n        define cur: CodeEntry as t[i]\n        assert length of string prev.code < length of string cur.code or length of string prev.code == length of string cur.code and prev.ch < cur.ch\n    define b: Optional<String> as bits_for(\"abcdefghijklmnopqrstuvwxyz0123456789\")\n    assert b is not nothing\n    assert value of b == \"00010000110010000101001100011101000010010101001011011000110101110011111000010001100101001110100101011011010111110001100111010110111110001110011110101110111111001111011111101111110000000001\"\ntest decode_truncated_bits_fails:\n    define list tbl as [CodeEntry(ch=97, code=\"00\"), CodeEntry(ch=98, code=\"11\")]\n    define r: Optional<String> as decode_bits(\"0\", tbl)\n    assert r is nothing\ntest decode_bad_bit_char_fails:\n    define list tbl as [CodeEntry(ch=97, code=\"00\"), CodeEntry(ch=98, code=\"11\")]\n    define r: Optional<String> as decode_bits(\"02\", tbl)\n    assert r is nothing\ntest decode_empty_table_nonempty_bits_fails:\n    define list tbl as empty List<CodeEntry>\n    define r: Optional<String> as decode_bits(\"0\", tbl)\n    assert r is nothing\ntest decode_unknown_byte_rejected:\n    define list tbl as [CodeEntry(ch=200, code=\"0\")]\n    define r: Optional<String> as decode_bits(\"0\", tbl)\n    assert r is nothing\ntest decode_duplicate_codes_rejected:\n    define list tbl as [CodeEntry(ch=97, code=\"0\"), CodeEntry(ch=98, code=\"0\")]\n    define r: Optional<String> as decode_bits(\"00\", tbl)\n    assert r is nothing\ntest decode_prefix_conflict_rejected:\n    define list tbl as [CodeEntry(ch=97, code=\"0\"), CodeEntry(ch=98, code=\"00\")]\n    define r: Optional<String> as decode_bits(\"00\", tbl)\n    assert r is nothing\ntest char_code_conversions:\n    define ot: Optional<Int> as byte_of_char(\"\\t\")\n    assert ot is not nothing\n    assert value of ot == 9\n    define on: Optional<Int> as byte_of_char(\"\\n\")\n    assert on is not nothing\n    assert value of on == 10\n    define ocr: Optional<Int> as byte_of_char(\"\\r\")\n    assert ocr is not nothing\n    assert value of ocr == 13\n    define oa: Optional<Int> as byte_of_char(\"a\")\n    assert oa is not nothing\n    assert value of oa == 97\n    define otile: Optional<String> as char_of_byte(126)\n    assert otile is not nothing\n    assert value of otile == \"~\"\n    define odel: Optional<String> as char_of_byte(127)\n    assert odel is nothing\n    define ohi: Optional<Int> as byte_of_char(character of 200)\n    assert ohi is nothing\ntest control_chars_roundtrip:\n    define s: String as \"\\t\\n\\rab\\r\\n\"\n    define got: Optional<List<CodeEntry>> as codes_for(s)\n    assert got is not nothing\n    define list t as value of got\n    define b: Optional<String> as encode_bits(s, t)\n    assert b is not nothing\n    define d: Optional<String> as decode_bits(value of b, t)\n    assert d is not nothing\n    assert value of d == s\ntest unsupported_char_detected:\n    define got: Optional<List<CodeEntry>> as codes_for(\"h\\u00e9llo\")\n    assert got is nothing",
       "ir": {
         "statements": [
           {
             "op": "import_stmt",
-            "module": "huffcore",
+            "module": "../../huffcore",
             "source_line": 5
           },
           {
@@ -4135,6 +4613,10 @@
                 "item_var": "s",
                 "index_var": null,
                 "collection": "samples",
+                "collection_expr": {
+                  "expr_type": "var_ref",
+                  "name": "samples"
+                },
                 "body": [
                   {
                     "op": "var_decl",
@@ -5622,6 +6104,480 @@
           },
           {
             "op": "test_block_stmt",
+            "name": "char_code_conversions",
+            "body": [
+              {
+                "op": "var_decl",
+                "name": "ot",
+                "var_type": "Optional<Int>",
+                "value": {
+                  "expr_type": "call",
+                  "func_name": "byte_of_char",
+                  "args": [
+                    {
+                      "expr_type": "literal",
+                      "value": "\t",
+                      "data_type": "String"
+                    }
+                  ]
+                },
+                "source_line": 169
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "optional_is_nothing",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "ot"
+                  },
+                  "negated": true
+                },
+                "source_line": 170,
+                "source_text": "ot is not nothing"
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "binary_op",
+                  "op": "==",
+                  "left": {
+                    "expr_type": "optional_unwrap",
+                    "target": {
+                      "expr_type": "var_ref",
+                      "name": "ot"
+                    }
+                  },
+                  "right": {
+                    "expr_type": "literal",
+                    "value": 9,
+                    "data_type": "Int"
+                  }
+                },
+                "source_line": 171,
+                "source_text": "value of ot == 9"
+              },
+              {
+                "op": "var_decl",
+                "name": "on",
+                "var_type": "Optional<Int>",
+                "value": {
+                  "expr_type": "call",
+                  "func_name": "byte_of_char",
+                  "args": [
+                    {
+                      "expr_type": "literal",
+                      "value": "\n",
+                      "data_type": "String"
+                    }
+                  ]
+                },
+                "source_line": 172
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "optional_is_nothing",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "on"
+                  },
+                  "negated": true
+                },
+                "source_line": 173,
+                "source_text": "on is not nothing"
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "binary_op",
+                  "op": "==",
+                  "left": {
+                    "expr_type": "optional_unwrap",
+                    "target": {
+                      "expr_type": "var_ref",
+                      "name": "on"
+                    }
+                  },
+                  "right": {
+                    "expr_type": "literal",
+                    "value": 10,
+                    "data_type": "Int"
+                  }
+                },
+                "source_line": 174,
+                "source_text": "value of on == 10"
+              },
+              {
+                "op": "var_decl",
+                "name": "ocr",
+                "var_type": "Optional<Int>",
+                "value": {
+                  "expr_type": "call",
+                  "func_name": "byte_of_char",
+                  "args": [
+                    {
+                      "expr_type": "literal",
+                      "value": "\r",
+                      "data_type": "String"
+                    }
+                  ]
+                },
+                "source_line": 175
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "optional_is_nothing",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "ocr"
+                  },
+                  "negated": true
+                },
+                "source_line": 176,
+                "source_text": "ocr is not nothing"
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "binary_op",
+                  "op": "==",
+                  "left": {
+                    "expr_type": "optional_unwrap",
+                    "target": {
+                      "expr_type": "var_ref",
+                      "name": "ocr"
+                    }
+                  },
+                  "right": {
+                    "expr_type": "literal",
+                    "value": 13,
+                    "data_type": "Int"
+                  }
+                },
+                "source_line": 177,
+                "source_text": "value of ocr == 13"
+              },
+              {
+                "op": "var_decl",
+                "name": "oa",
+                "var_type": "Optional<Int>",
+                "value": {
+                  "expr_type": "call",
+                  "func_name": "byte_of_char",
+                  "args": [
+                    {
+                      "expr_type": "literal",
+                      "value": "a",
+                      "data_type": "String"
+                    }
+                  ]
+                },
+                "source_line": 178
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "optional_is_nothing",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "oa"
+                  },
+                  "negated": true
+                },
+                "source_line": 179,
+                "source_text": "oa is not nothing"
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "binary_op",
+                  "op": "==",
+                  "left": {
+                    "expr_type": "optional_unwrap",
+                    "target": {
+                      "expr_type": "var_ref",
+                      "name": "oa"
+                    }
+                  },
+                  "right": {
+                    "expr_type": "literal",
+                    "value": 97,
+                    "data_type": "Int"
+                  }
+                },
+                "source_line": 180,
+                "source_text": "value of oa == 97"
+              },
+              {
+                "op": "var_decl",
+                "name": "otile",
+                "var_type": "Optional<String>",
+                "value": {
+                  "expr_type": "call",
+                  "func_name": "char_of_byte",
+                  "args": [
+                    {
+                      "expr_type": "literal",
+                      "value": 126,
+                      "data_type": "Int"
+                    }
+                  ]
+                },
+                "source_line": 181
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "optional_is_nothing",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "otile"
+                  },
+                  "negated": true
+                },
+                "source_line": 182,
+                "source_text": "otile is not nothing"
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "binary_op",
+                  "op": "==",
+                  "left": {
+                    "expr_type": "optional_unwrap",
+                    "target": {
+                      "expr_type": "var_ref",
+                      "name": "otile"
+                    }
+                  },
+                  "right": {
+                    "expr_type": "literal",
+                    "value": "~",
+                    "data_type": "String"
+                  }
+                },
+                "source_line": 183,
+                "source_text": "value of otile == \"~\""
+              },
+              {
+                "op": "var_decl",
+                "name": "odel",
+                "var_type": "Optional<String>",
+                "value": {
+                  "expr_type": "call",
+                  "func_name": "char_of_byte",
+                  "args": [
+                    {
+                      "expr_type": "literal",
+                      "value": 127,
+                      "data_type": "Int"
+                    }
+                  ]
+                },
+                "source_line": 184
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "optional_is_nothing",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "odel"
+                  },
+                  "negated": false
+                },
+                "source_line": 185,
+                "source_text": "odel is nothing"
+              },
+              {
+                "op": "var_decl",
+                "name": "ohi",
+                "var_type": "Optional<Int>",
+                "value": {
+                  "expr_type": "call",
+                  "func_name": "byte_of_char",
+                  "args": [
+                    {
+                      "expr_type": "character_of",
+                      "target": {
+                        "expr_type": "literal",
+                        "value": 200,
+                        "data_type": "Int"
+                      }
+                    }
+                  ]
+                },
+                "source_line": 186
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "optional_is_nothing",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "ohi"
+                  },
+                  "negated": false
+                },
+                "source_line": 187,
+                "source_text": "ohi is nothing"
+              }
+            ],
+            "source_line": 168
+          },
+          {
+            "op": "test_block_stmt",
+            "name": "control_chars_roundtrip",
+            "body": [
+              {
+                "op": "var_decl",
+                "name": "s",
+                "var_type": "String",
+                "value": {
+                  "expr_type": "literal",
+                  "value": "\t\n\rab\r\n",
+                  "data_type": "String"
+                },
+                "source_line": 190
+              },
+              {
+                "op": "var_decl",
+                "name": "got",
+                "var_type": "Optional<List<CodeEntry>>",
+                "value": {
+                  "expr_type": "call",
+                  "func_name": "codes_for",
+                  "args": [
+                    {
+                      "expr_type": "var_ref",
+                      "name": "s"
+                    }
+                  ]
+                },
+                "source_line": 191
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "optional_is_nothing",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "got"
+                  },
+                  "negated": true
+                },
+                "source_line": 192,
+                "source_text": "got is not nothing"
+              },
+              {
+                "op": "var_decl",
+                "name": "t",
+                "var_type": "List<CodeEntry>",
+                "value": {
+                  "expr_type": "optional_unwrap",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "got"
+                  }
+                },
+                "source_line": 193
+              },
+              {
+                "op": "var_decl",
+                "name": "b",
+                "var_type": "Optional<String>",
+                "value": {
+                  "expr_type": "call",
+                  "func_name": "encode_bits",
+                  "args": [
+                    {
+                      "expr_type": "var_ref",
+                      "name": "s"
+                    },
+                    {
+                      "expr_type": "var_ref",
+                      "name": "t"
+                    }
+                  ]
+                },
+                "source_line": 194
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "optional_is_nothing",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "b"
+                  },
+                  "negated": true
+                },
+                "source_line": 195,
+                "source_text": "b is not nothing"
+              },
+              {
+                "op": "var_decl",
+                "name": "d",
+                "var_type": "Optional<String>",
+                "value": {
+                  "expr_type": "call",
+                  "func_name": "decode_bits",
+                  "args": [
+                    {
+                      "expr_type": "optional_unwrap",
+                      "target": {
+                        "expr_type": "var_ref",
+                        "name": "b"
+                      }
+                    },
+                    {
+                      "expr_type": "var_ref",
+                      "name": "t"
+                    }
+                  ]
+                },
+                "source_line": 196
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "optional_is_nothing",
+                  "target": {
+                    "expr_type": "var_ref",
+                    "name": "d"
+                  },
+                  "negated": true
+                },
+                "source_line": 197,
+                "source_text": "d is not nothing"
+              },
+              {
+                "op": "assert_stmt",
+                "condition": {
+                  "expr_type": "binary_op",
+                  "op": "==",
+                  "left": {
+                    "expr_type": "optional_unwrap",
+                    "target": {
+                      "expr_type": "var_ref",
+                      "name": "d"
+                    }
+                  },
+                  "right": {
+                    "expr_type": "var_ref",
+                    "name": "s"
+                  }
+                },
+                "source_line": 198,
+                "source_text": "value of d == s"
+              }
+            ],
+            "source_line": 189
+          },
+          {
+            "op": "test_block_stmt",
             "name": "unsupported_char_detected",
             "body": [
               {
@@ -5639,7 +6595,7 @@
                     }
                   ]
                 },
-                "source_line": 169
+                "source_line": 201
               },
               {
                 "op": "assert_stmt",
@@ -5651,11 +6607,11 @@
                   },
                   "negated": false
                 },
-                "source_line": 170,
+                "source_line": 202,
                 "source_text": "got is nothing"
               }
             ],
-            "source_line": 168
+            "source_line": 200
           }
         ],
         "imported_definitions": [
@@ -5676,24 +6632,6 @@
           },
           {
             "op": "func_def",
-            "name": "alphabet",
-            "params": [],
-            "return_type": "String",
-            "body": [
-              {
-                "op": "return_stmt",
-                "value": {
-                  "expr_type": "literal",
-                  "value": "\t\n\r !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~",
-                  "data_type": "String"
-                },
-                "source_line": 22
-              }
-            ],
-            "source_line": 21
-          },
-          {
-            "op": "func_def",
             "name": "byte_of_char",
             "params": [
               {
@@ -5705,174 +6643,122 @@
             "body": [
               {
                 "op": "var_decl",
-                "name": "a",
-                "var_type": "String",
-                "value": {
-                  "expr_type": "call",
-                  "func_name": "alphabet",
-                  "args": []
-                },
-                "source_line": 25
-              },
-              {
-                "op": "var_decl",
-                "name": "idx",
+                "name": "b",
                 "var_type": "Int",
                 "value": {
-                  "expr_type": "string_index_of",
+                  "expr_type": "number_of",
                   "target": {
-                    "expr_type": "var_ref",
-                    "name": "a"
-                  },
-                  "substring": {
                     "expr_type": "var_ref",
                     "name": "c"
                   }
                 },
-                "source_line": 26
+                "source_line": 25
               },
               {
                 "op": "if_stmt",
                 "condition": {
                   "expr_type": "binary_op",
-                  "op": "==",
+                  "op": "or",
                   "left": {
-                    "expr_type": "var_ref",
-                    "name": "idx"
-                  },
-                  "right": {
-                    "expr_type": "literal",
-                    "value": -1,
-                    "data_type": "Int"
-                  }
-                },
-                "then_body": [
-                  {
-                    "op": "return_stmt",
-                    "value": {
-                      "expr_type": "optional_none"
-                    },
-                    "source_line": 28
-                  }
-                ],
-                "else_body": [],
-                "source_line": 27
-              },
-              {
-                "op": "if_stmt",
-                "condition": {
-                  "expr_type": "binary_op",
-                  "op": "==",
-                  "left": {
-                    "expr_type": "var_ref",
-                    "name": "idx"
-                  },
-                  "right": {
-                    "expr_type": "literal",
-                    "value": 0,
-                    "data_type": "Int"
-                  }
-                },
-                "then_body": [
-                  {
-                    "op": "return_stmt",
-                    "value": {
-                      "expr_type": "optional_wrap",
-                      "value": {
-                        "expr_type": "literal",
-                        "value": 9,
-                        "data_type": "Int"
+                    "expr_type": "binary_op",
+                    "op": "or",
+                    "left": {
+                      "expr_type": "binary_op",
+                      "op": "or",
+                      "left": {
+                        "expr_type": "binary_op",
+                        "op": "==",
+                        "left": {
+                          "expr_type": "var_ref",
+                          "name": "b"
+                        },
+                        "right": {
+                          "expr_type": "literal",
+                          "value": 9,
+                          "data_type": "Int"
+                        }
+                      },
+                      "right": {
+                        "expr_type": "binary_op",
+                        "op": "==",
+                        "left": {
+                          "expr_type": "var_ref",
+                          "name": "b"
+                        },
+                        "right": {
+                          "expr_type": "literal",
+                          "value": 10,
+                          "data_type": "Int"
+                        }
                       }
                     },
-                    "source_line": 30
-                  }
-                ],
-                "else_body": [],
-                "source_line": 29
-              },
-              {
-                "op": "if_stmt",
-                "condition": {
-                  "expr_type": "binary_op",
-                  "op": "==",
-                  "left": {
-                    "expr_type": "var_ref",
-                    "name": "idx"
-                  },
-                  "right": {
-                    "expr_type": "literal",
-                    "value": 1,
-                    "data_type": "Int"
-                  }
-                },
-                "then_body": [
-                  {
-                    "op": "return_stmt",
-                    "value": {
-                      "expr_type": "optional_wrap",
-                      "value": {
-                        "expr_type": "literal",
-                        "value": 10,
-                        "data_type": "Int"
-                      }
-                    },
-                    "source_line": 32
-                  }
-                ],
-                "else_body": [],
-                "source_line": 31
-              },
-              {
-                "op": "if_stmt",
-                "condition": {
-                  "expr_type": "binary_op",
-                  "op": "==",
-                  "left": {
-                    "expr_type": "var_ref",
-                    "name": "idx"
-                  },
-                  "right": {
-                    "expr_type": "literal",
-                    "value": 2,
-                    "data_type": "Int"
-                  }
-                },
-                "then_body": [
-                  {
-                    "op": "return_stmt",
-                    "value": {
-                      "expr_type": "optional_wrap",
-                      "value": {
+                    "right": {
+                      "expr_type": "binary_op",
+                      "op": "==",
+                      "left": {
+                        "expr_type": "var_ref",
+                        "name": "b"
+                      },
+                      "right": {
                         "expr_type": "literal",
                         "value": 13,
                         "data_type": "Int"
                       }
+                    }
+                  },
+                  "right": {
+                    "expr_type": "binary_op",
+                    "op": "and",
+                    "left": {
+                      "expr_type": "binary_op",
+                      "op": ">=",
+                      "left": {
+                        "expr_type": "var_ref",
+                        "name": "b"
+                      },
+                      "right": {
+                        "expr_type": "literal",
+                        "value": 32,
+                        "data_type": "Int"
+                      }
                     },
-                    "source_line": 34
+                    "right": {
+                      "expr_type": "binary_op",
+                      "op": "<=",
+                      "left": {
+                        "expr_type": "var_ref",
+                        "name": "b"
+                      },
+                      "right": {
+                        "expr_type": "literal",
+                        "value": 126,
+                        "data_type": "Int"
+                      }
+                    }
+                  }
+                },
+                "then_body": [
+                  {
+                    "op": "return_stmt",
+                    "value": {
+                      "expr_type": "optional_wrap",
+                      "value": {
+                        "expr_type": "var_ref",
+                        "name": "b"
+                      }
+                    },
+                    "source_line": 27
                   }
                 ],
                 "else_body": [],
-                "source_line": 33
+                "source_line": 26
               },
               {
                 "op": "return_stmt",
                 "value": {
-                  "expr_type": "optional_wrap",
-                  "value": {
-                    "expr_type": "binary_op",
-                    "op": "+",
-                    "left": {
-                      "expr_type": "var_ref",
-                      "name": "idx"
-                    },
-                    "right": {
-                      "expr_type": "literal",
-                      "value": 29,
-                      "data_type": "Int"
-                    }
-                  }
+                  "expr_type": "optional_none"
                 },
-                "source_line": 35
+                "source_line": 28
               }
             ],
             "source_line": 24
@@ -5889,162 +6775,85 @@
             "return_type": "Optional<String>",
             "body": [
               {
-                "op": "var_decl",
-                "name": "a",
-                "var_type": "String",
-                "value": {
-                  "expr_type": "call",
-                  "func_name": "alphabet",
-                  "args": []
-                },
-                "source_line": 38
-              },
-              {
                 "op": "if_stmt",
                 "condition": {
                   "expr_type": "binary_op",
-                  "op": "==",
-                  "left": {
-                    "expr_type": "var_ref",
-                    "name": "b"
-                  },
-                  "right": {
-                    "expr_type": "literal",
-                    "value": 9,
-                    "data_type": "Int"
-                  }
-                },
-                "then_body": [
-                  {
-                    "op": "return_stmt",
-                    "value": {
-                      "expr_type": "optional_wrap",
-                      "value": {
-                        "expr_type": "string_char_at",
-                        "target": {
-                          "expr_type": "var_ref",
-                          "name": "a"
-                        },
-                        "index": {
-                          "expr_type": "literal",
-                          "value": 0,
-                          "data_type": "Int"
-                        }
-                      }
-                    },
-                    "source_line": 40
-                  }
-                ],
-                "else_body": [],
-                "source_line": 39
-              },
-              {
-                "op": "if_stmt",
-                "condition": {
-                  "expr_type": "binary_op",
-                  "op": "==",
-                  "left": {
-                    "expr_type": "var_ref",
-                    "name": "b"
-                  },
-                  "right": {
-                    "expr_type": "literal",
-                    "value": 10,
-                    "data_type": "Int"
-                  }
-                },
-                "then_body": [
-                  {
-                    "op": "return_stmt",
-                    "value": {
-                      "expr_type": "optional_wrap",
-                      "value": {
-                        "expr_type": "string_char_at",
-                        "target": {
-                          "expr_type": "var_ref",
-                          "name": "a"
-                        },
-                        "index": {
-                          "expr_type": "literal",
-                          "value": 1,
-                          "data_type": "Int"
-                        }
-                      }
-                    },
-                    "source_line": 42
-                  }
-                ],
-                "else_body": [],
-                "source_line": 41
-              },
-              {
-                "op": "if_stmt",
-                "condition": {
-                  "expr_type": "binary_op",
-                  "op": "==",
-                  "left": {
-                    "expr_type": "var_ref",
-                    "name": "b"
-                  },
-                  "right": {
-                    "expr_type": "literal",
-                    "value": 13,
-                    "data_type": "Int"
-                  }
-                },
-                "then_body": [
-                  {
-                    "op": "return_stmt",
-                    "value": {
-                      "expr_type": "optional_wrap",
-                      "value": {
-                        "expr_type": "string_char_at",
-                        "target": {
-                          "expr_type": "var_ref",
-                          "name": "a"
-                        },
-                        "index": {
-                          "expr_type": "literal",
-                          "value": 2,
-                          "data_type": "Int"
-                        }
-                      }
-                    },
-                    "source_line": 44
-                  }
-                ],
-                "else_body": [],
-                "source_line": 43
-              },
-              {
-                "op": "if_stmt",
-                "condition": {
-                  "expr_type": "binary_op",
-                  "op": "and",
+                  "op": "or",
                   "left": {
                     "expr_type": "binary_op",
-                    "op": ">=",
+                    "op": "or",
                     "left": {
-                      "expr_type": "var_ref",
-                      "name": "b"
+                      "expr_type": "binary_op",
+                      "op": "or",
+                      "left": {
+                        "expr_type": "binary_op",
+                        "op": "==",
+                        "left": {
+                          "expr_type": "var_ref",
+                          "name": "b"
+                        },
+                        "right": {
+                          "expr_type": "literal",
+                          "value": 9,
+                          "data_type": "Int"
+                        }
+                      },
+                      "right": {
+                        "expr_type": "binary_op",
+                        "op": "==",
+                        "left": {
+                          "expr_type": "var_ref",
+                          "name": "b"
+                        },
+                        "right": {
+                          "expr_type": "literal",
+                          "value": 10,
+                          "data_type": "Int"
+                        }
+                      }
                     },
                     "right": {
-                      "expr_type": "literal",
-                      "value": 32,
-                      "data_type": "Int"
+                      "expr_type": "binary_op",
+                      "op": "==",
+                      "left": {
+                        "expr_type": "var_ref",
+                        "name": "b"
+                      },
+                      "right": {
+                        "expr_type": "literal",
+                        "value": 13,
+                        "data_type": "Int"
+                      }
                     }
                   },
                   "right": {
                     "expr_type": "binary_op",
-                    "op": "<=",
+                    "op": "and",
                     "left": {
-                      "expr_type": "var_ref",
-                      "name": "b"
+                      "expr_type": "binary_op",
+                      "op": ">=",
+                      "left": {
+                        "expr_type": "var_ref",
+                        "name": "b"
+                      },
+                      "right": {
+                        "expr_type": "literal",
+                        "value": 32,
+                        "data_type": "Int"
+                      }
                     },
                     "right": {
-                      "expr_type": "literal",
-                      "value": 126,
-                      "data_type": "Int"
+                      "expr_type": "binary_op",
+                      "op": "<=",
+                      "left": {
+                        "expr_type": "var_ref",
+                        "name": "b"
+                      },
+                      "right": {
+                        "expr_type": "literal",
+                        "value": 126,
+                        "data_type": "Int"
+                      }
                     }
                   }
                 },
@@ -6054,41 +6863,28 @@
                     "value": {
                       "expr_type": "optional_wrap",
                       "value": {
-                        "expr_type": "string_char_at",
+                        "expr_type": "character_of",
                         "target": {
                           "expr_type": "var_ref",
-                          "name": "a"
-                        },
-                        "index": {
-                          "expr_type": "binary_op",
-                          "op": "-",
-                          "left": {
-                            "expr_type": "var_ref",
-                            "name": "b"
-                          },
-                          "right": {
-                            "expr_type": "literal",
-                            "value": 29,
-                            "data_type": "Int"
-                          }
+                          "name": "b"
                         }
                       }
                     },
-                    "source_line": 46
+                    "source_line": 32
                   }
                 ],
                 "else_body": [],
-                "source_line": 45
+                "source_line": 31
               },
               {
                 "op": "return_stmt",
                 "value": {
                   "expr_type": "optional_none"
                 },
-                "source_line": 47
+                "source_line": 33
               }
             ],
-            "source_line": 37
+            "source_line": 30
           },
           {
             "op": "func_def",
@@ -6111,7 +6907,7 @@
                   "value_type": "Int",
                   "entries": []
                 },
-                "source_line": 50
+                "source_line": 36
               },
               {
                 "op": "var_decl",
@@ -6122,7 +6918,7 @@
                   "value": 0,
                   "data_type": "Int"
                 },
-                "source_line": 51
+                "source_line": 37
               },
               {
                 "op": "while_loop",
@@ -6157,7 +6953,7 @@
                         "name": "i"
                       }
                     },
-                    "source_line": 53
+                    "source_line": 39
                   },
                   {
                     "op": "var_decl",
@@ -6173,7 +6969,7 @@
                         }
                       ]
                     },
-                    "source_line": 54
+                    "source_line": 40
                   },
                   {
                     "op": "if_stmt",
@@ -6191,11 +6987,11 @@
                         "value": {
                           "expr_type": "optional_none"
                         },
-                        "source_line": 56
+                        "source_line": 42
                       }
                     ],
                     "else_body": [],
-                    "source_line": 55
+                    "source_line": 41
                   },
                   {
                     "op": "var_decl",
@@ -6208,7 +7004,7 @@
                         "name": "ob"
                       }
                     },
-                    "source_line": 57
+                    "source_line": 43
                   },
                   {
                     "op": "map_set",
@@ -6242,7 +7038,7 @@
                         "data_type": "Int"
                       }
                     },
-                    "source_line": 58
+                    "source_line": 44
                   },
                   {
                     "op": "compound_assign",
@@ -6253,10 +7049,10 @@
                       "value": 1,
                       "data_type": "Int"
                     },
-                    "source_line": 59
+                    "source_line": 45
                   }
                 ],
-                "source_line": 52
+                "source_line": 38
               },
               {
                 "op": "var_decl",
@@ -6267,13 +7063,17 @@
                   "elements": [],
                   "element_type": "Int"
                 },
-                "source_line": 60
+                "source_line": 46
               },
               {
                 "op": "for_each",
                 "item_var": "k",
                 "index_var": null,
                 "collection": "freq",
+                "collection_expr": {
+                  "expr_type": "var_ref",
+                  "name": "freq"
+                },
                 "body": [
                   {
                     "op": "list_append",
@@ -6282,7 +7082,7 @@
                       "expr_type": "var_ref",
                       "name": "k"
                     },
-                    "source_line": 62
+                    "source_line": 48
                   },
                   {
                     "op": "list_append",
@@ -6299,10 +7099,10 @@
                       },
                       "default_val": null
                     },
-                    "source_line": 63
+                    "source_line": 49
                   }
                 ],
-                "source_line": 61
+                "source_line": 47
               },
               {
                 "op": "return_stmt",
@@ -6313,10 +7113,10 @@
                     "name": "flat"
                   }
                 },
-                "source_line": 64
+                "source_line": 50
               }
             ],
-            "source_line": 49
+            "source_line": 35
           },
           {
             "op": "func_def",
@@ -6357,7 +7157,7 @@
                       "elements": [],
                       "element_type": "CodeEntry"
                     },
-                    "source_line": 73
+                    "source_line": 61
                   },
                   {
                     "op": "return_stmt",
@@ -6365,11 +7165,11 @@
                       "expr_type": "var_ref",
                       "name": "empty_table"
                     },
-                    "source_line": 74
+                    "source_line": 62
                   }
                 ],
                 "else_body": [],
-                "source_line": 72
+                "source_line": 60
               },
               {
                 "op": "var_decl",
@@ -6380,7 +7180,7 @@
                   "elements": [],
                   "element_type": "Int"
                 },
-                "source_line": 75
+                "source_line": 63
               },
               {
                 "op": "var_decl",
@@ -6391,7 +7191,7 @@
                   "elements": [],
                   "element_type": "String"
                 },
-                "source_line": 76
+                "source_line": 64
               },
               {
                 "op": "var_decl",
@@ -6402,7 +7202,7 @@
                   "elements": [],
                   "element_type": "Int"
                 },
-                "source_line": 77
+                "source_line": 65
               },
               {
                 "op": "var_decl",
@@ -6413,7 +7213,7 @@
                   "elements": [],
                   "element_type": "Int"
                 },
-                "source_line": 78
+                "source_line": 66
               },
               {
                 "op": "var_decl",
@@ -6424,7 +7224,7 @@
                   "elements": [],
                   "element_type": "List<Int>"
                 },
-                "source_line": 79
+                "source_line": 67
               },
               {
                 "op": "var_decl",
@@ -6435,7 +7235,7 @@
                   "value": 0,
                   "data_type": "Int"
                 },
-                "source_line": 80
+                "source_line": 68
               },
               {
                 "op": "while_loop",
@@ -6470,7 +7270,7 @@
                         "name": "i"
                       }
                     },
-                    "source_line": 82
+                    "source_line": 70
                   },
                   {
                     "op": "list_append",
@@ -6479,7 +7279,7 @@
                       "expr_type": "var_ref",
                       "name": "k"
                     },
-                    "source_line": 83
+                    "source_line": 71
                   },
                   {
                     "op": "list_append",
@@ -6489,7 +7289,7 @@
                       "value": "",
                       "data_type": "String"
                     },
-                    "source_line": 84
+                    "source_line": 72
                   },
                   {
                     "op": "var_decl",
@@ -6500,7 +7300,7 @@
                       "elements": [],
                       "element_type": "Int"
                     },
-                    "source_line": 85
+                    "source_line": 73
                   },
                   {
                     "op": "list_append",
@@ -6521,7 +7321,7 @@
                         "data_type": "Int"
                       }
                     },
-                    "source_line": 86
+                    "source_line": 74
                   },
                   {
                     "op": "list_append",
@@ -6546,7 +7346,7 @@
                         }
                       }
                     },
-                    "source_line": 87
+                    "source_line": 75
                   },
                   {
                     "op": "list_append",
@@ -6555,7 +7355,7 @@
                       "expr_type": "var_ref",
                       "name": "k"
                     },
-                    "source_line": 88
+                    "source_line": 76
                   },
                   {
                     "op": "list_append",
@@ -6564,7 +7364,7 @@
                       "expr_type": "var_ref",
                       "name": "li"
                     },
-                    "source_line": 89
+                    "source_line": 77
                   },
                   {
                     "op": "compound_assign",
@@ -6575,10 +7375,10 @@
                       "value": 2,
                       "data_type": "Int"
                     },
-                    "source_line": 90
+                    "source_line": 78
                   }
                 ],
-                "source_line": 81
+                "source_line": 69
               },
               {
                 "op": "while_loop",
@@ -6608,7 +7408,7 @@
                       "value": 0,
                       "data_type": "Int"
                     },
-                    "source_line": 92
+                    "source_line": 80
                   },
                   {
                     "op": "var_decl",
@@ -6619,7 +7419,7 @@
                       "value": 1,
                       "data_type": "Int"
                     },
-                    "source_line": 93
+                    "source_line": 81
                   },
                   {
                     "op": "while_loop",
@@ -6735,11 +7535,11 @@
                               "expr_type": "var_ref",
                               "name": "j"
                             },
-                            "source_line": 96
+                            "source_line": 84
                           }
                         ],
                         "else_body": [],
-                        "source_line": 95
+                        "source_line": 83
                       },
                       {
                         "op": "compound_assign",
@@ -6750,10 +7550,10 @@
                           "value": 1,
                           "data_type": "Int"
                         },
-                        "source_line": 97
+                        "source_line": 85
                       }
                     ],
-                    "source_line": 94
+                    "source_line": 82
                   },
                   {
                     "op": "var_decl",
@@ -6770,7 +7570,7 @@
                         "name": "ia"
                       }
                     },
-                    "source_line": 98
+                    "source_line": 86
                   },
                   {
                     "op": "var_decl",
@@ -6787,7 +7587,7 @@
                         "name": "ia"
                       }
                     },
-                    "source_line": 99
+                    "source_line": 87
                   },
                   {
                     "op": "var_decl",
@@ -6804,7 +7604,7 @@
                         "name": "ia"
                       }
                     },
-                    "source_line": 100
+                    "source_line": 88
                   },
                   {
                     "op": "list_remove",
@@ -6813,7 +7613,7 @@
                       "expr_type": "var_ref",
                       "name": "ia"
                     },
-                    "source_line": 101
+                    "source_line": 89
                   },
                   {
                     "op": "list_remove",
@@ -6822,7 +7622,7 @@
                       "expr_type": "var_ref",
                       "name": "ia"
                     },
-                    "source_line": 102
+                    "source_line": 90
                   },
                   {
                     "op": "list_remove",
@@ -6831,7 +7631,7 @@
                       "expr_type": "var_ref",
                       "name": "ia"
                     },
-                    "source_line": 103
+                    "source_line": 91
                   },
                   {
                     "op": "var_decl",
@@ -6842,7 +7642,7 @@
                       "value": 0,
                       "data_type": "Int"
                     },
-                    "source_line": 104
+                    "source_line": 92
                   },
                   {
                     "op": "assign",
@@ -6852,7 +7652,7 @@
                       "value": 1,
                       "data_type": "Int"
                     },
-                    "source_line": 105
+                    "source_line": 93
                   },
                   {
                     "op": "while_loop",
@@ -6968,11 +7768,11 @@
                               "expr_type": "var_ref",
                               "name": "j"
                             },
-                            "source_line": 108
+                            "source_line": 96
                           }
                         ],
                         "else_body": [],
-                        "source_line": 107
+                        "source_line": 95
                       },
                       {
                         "op": "compound_assign",
@@ -6983,10 +7783,10 @@
                           "value": 1,
                           "data_type": "Int"
                         },
-                        "source_line": 109
+                        "source_line": 97
                       }
                     ],
-                    "source_line": 106
+                    "source_line": 94
                   },
                   {
                     "op": "var_decl",
@@ -7003,7 +7803,7 @@
                         "name": "ib"
                       }
                     },
-                    "source_line": 110
+                    "source_line": 98
                   },
                   {
                     "op": "var_decl",
@@ -7020,7 +7820,7 @@
                         "name": "ib"
                       }
                     },
-                    "source_line": 111
+                    "source_line": 99
                   },
                   {
                     "op": "var_decl",
@@ -7037,7 +7837,7 @@
                         "name": "ib"
                       }
                     },
-                    "source_line": 112
+                    "source_line": 100
                   },
                   {
                     "op": "list_remove",
@@ -7046,7 +7846,7 @@
                       "expr_type": "var_ref",
                       "name": "ib"
                     },
-                    "source_line": 113
+                    "source_line": 101
                   },
                   {
                     "op": "list_remove",
@@ -7055,7 +7855,7 @@
                       "expr_type": "var_ref",
                       "name": "ib"
                     },
-                    "source_line": 114
+                    "source_line": 102
                   },
                   {
                     "op": "list_remove",
@@ -7064,13 +7864,17 @@
                       "expr_type": "var_ref",
                       "name": "ib"
                     },
-                    "source_line": 115
+                    "source_line": 103
                   },
                   {
                     "op": "for_each",
                     "item_var": "li",
                     "index_var": null,
                     "collection": "al",
+                    "collection_expr": {
+                      "expr_type": "var_ref",
+                      "name": "al"
+                    },
                     "body": [
                       {
                         "op": "list_set_index",
@@ -7100,16 +7904,20 @@
                             }
                           }
                         },
-                        "source_line": 117
+                        "source_line": 105
                       }
                     ],
-                    "source_line": 116
+                    "source_line": 104
                   },
                   {
                     "op": "for_each",
                     "item_var": "li",
                     "index_var": null,
                     "collection": "bl",
+                    "collection_expr": {
+                      "expr_type": "var_ref",
+                      "name": "bl"
+                    },
                     "body": [
                       {
                         "op": "list_set_index",
@@ -7139,10 +7947,10 @@
                             }
                           }
                         },
-                        "source_line": 119
+                        "source_line": 107
                       }
                     ],
-                    "source_line": 118
+                    "source_line": 106
                   },
                   {
                     "op": "var_decl",
@@ -7153,13 +7961,17 @@
                       "elements": [],
                       "element_type": "Int"
                     },
-                    "source_line": 120
+                    "source_line": 108
                   },
                   {
                     "op": "for_each",
                     "item_var": "li",
                     "index_var": null,
                     "collection": "al",
+                    "collection_expr": {
+                      "expr_type": "var_ref",
+                      "name": "al"
+                    },
                     "body": [
                       {
                         "op": "list_append",
@@ -7168,16 +7980,20 @@
                           "expr_type": "var_ref",
                           "name": "li"
                         },
-                        "source_line": 122
+                        "source_line": 110
                       }
                     ],
-                    "source_line": 121
+                    "source_line": 109
                   },
                   {
                     "op": "for_each",
                     "item_var": "li",
                     "index_var": null,
                     "collection": "bl",
+                    "collection_expr": {
+                      "expr_type": "var_ref",
+                      "name": "bl"
+                    },
                     "body": [
                       {
                         "op": "list_append",
@@ -7186,10 +8002,10 @@
                           "expr_type": "var_ref",
                           "name": "li"
                         },
-                        "source_line": 124
+                        "source_line": 112
                       }
                     ],
-                    "source_line": 123
+                    "source_line": 111
                   },
                   {
                     "op": "var_decl",
@@ -7199,7 +8015,7 @@
                       "expr_type": "var_ref",
                       "name": "ac"
                     },
-                    "source_line": 125
+                    "source_line": 113
                   },
                   {
                     "op": "if_stmt",
@@ -7223,11 +8039,11 @@
                           "expr_type": "var_ref",
                           "name": "bc"
                         },
-                        "source_line": 127
+                        "source_line": 115
                       }
                     ],
                     "else_body": [],
-                    "source_line": 126
+                    "source_line": 114
                   },
                   {
                     "op": "list_append",
@@ -7244,7 +8060,7 @@
                         "name": "bw"
                       }
                     },
-                    "source_line": 128
+                    "source_line": 116
                   },
                   {
                     "op": "list_append",
@@ -7253,7 +8069,7 @@
                       "expr_type": "var_ref",
                       "name": "mc"
                     },
-                    "source_line": 129
+                    "source_line": 117
                   },
                   {
                     "op": "list_append",
@@ -7262,10 +8078,10 @@
                       "expr_type": "var_ref",
                       "name": "merged"
                     },
-                    "source_line": 130
+                    "source_line": 118
                   }
                 ],
-                "source_line": 91
+                "source_line": 79
               },
               {
                 "op": "var_decl",
@@ -7283,13 +8099,17 @@
                     "data_type": "Int"
                   }
                 },
-                "source_line": 131
+                "source_line": 119
               },
               {
                 "op": "for_each",
                 "item_var": "li",
                 "index_var": null,
                 "collection": "root_leaves",
+                "collection_expr": {
+                  "expr_type": "var_ref",
+                  "name": "root_leaves"
+                },
                 "body": [
                   {
                     "op": "if_stmt",
@@ -7330,14 +8150,14 @@
                           "value": "0",
                           "data_type": "String"
                         },
-                        "source_line": 134
+                        "source_line": 122
                       }
                     ],
                     "else_body": [],
-                    "source_line": 133
+                    "source_line": 121
                   }
                 ],
-                "source_line": 132
+                "source_line": 120
               },
               {
                 "op": "var_decl",
@@ -7348,7 +8168,7 @@
                   "elements": [],
                   "element_type": "Int"
                 },
-                "source_line": 135
+                "source_line": 123
               },
               {
                 "op": "var_decl",
@@ -7359,13 +8179,17 @@
                   "elements": [],
                   "element_type": "String"
                 },
-                "source_line": 136
+                "source_line": 124
               },
               {
                 "op": "for_each",
                 "item_var": "li",
                 "index_var": null,
                 "collection": "root_leaves",
+                "collection_expr": {
+                  "expr_type": "var_ref",
+                  "name": "root_leaves"
+                },
                 "body": [
                   {
                     "op": "list_append",
@@ -7381,7 +8205,7 @@
                         "name": "li"
                       }
                     },
-                    "source_line": 138
+                    "source_line": 126
                   },
                   {
                     "op": "list_append",
@@ -7397,10 +8221,10 @@
                         "name": "li"
                       }
                     },
-                    "source_line": 139
+                    "source_line": 127
                   }
                 ],
-                "source_line": 137
+                "source_line": 125
               },
               {
                 "op": "if_stmt",
@@ -7461,7 +8285,7 @@
                             "name": "i"
                           }
                         },
-                        "source_line": 142
+                        "source_line": 130
                       },
                       {
                         "op": "var_decl",
@@ -7478,7 +8302,7 @@
                             "name": "i"
                           }
                         },
-                        "source_line": 143
+                        "source_line": 131
                       },
                       {
                         "op": "var_decl",
@@ -7497,7 +8321,7 @@
                             "data_type": "Int"
                           }
                         },
-                        "source_line": 144
+                        "source_line": 132
                       },
                       {
                         "op": "while_loop",
@@ -7530,7 +8354,7 @@
                                 "name": "j"
                               }
                             },
-                            "source_line": 146
+                            "source_line": 134
                           },
                           {
                             "op": "var_decl",
@@ -7547,7 +8371,7 @@
                                 "name": "j"
                               }
                             },
-                            "source_line": 147
+                            "source_line": 135
                           },
                           {
                             "op": "if_stmt",
@@ -7629,7 +8453,7 @@
                                   "expr_type": "var_ref",
                                   "name": "prev_ch"
                                 },
-                                "source_line": 149
+                                "source_line": 137
                               },
                               {
                                 "op": "list_set_index",
@@ -7652,7 +8476,7 @@
                                   "expr_type": "var_ref",
                                   "name": "prev_code"
                                 },
-                                "source_line": 150
+                                "source_line": 138
                               },
                               {
                                 "op": "compound_assign",
@@ -7663,19 +8487,19 @@
                                   "value": 1,
                                   "data_type": "Int"
                                 },
-                                "source_line": 151
+                                "source_line": 139
                               }
                             ],
                             "else_body": [
                               {
                                 "op": "loop_break",
-                                "source_line": 153
+                                "source_line": 141
                               }
                             ],
-                            "source_line": 148
+                            "source_line": 136
                           }
                         ],
-                        "source_line": 145
+                        "source_line": 133
                       },
                       {
                         "op": "list_set_index",
@@ -7698,7 +8522,7 @@
                           "expr_type": "var_ref",
                           "name": "held_ch"
                         },
-                        "source_line": 154
+                        "source_line": 142
                       },
                       {
                         "op": "list_set_index",
@@ -7721,14 +8545,14 @@
                           "expr_type": "var_ref",
                           "name": "held_code"
                         },
-                        "source_line": 155
+                        "source_line": 143
                       }
                     ],
-                    "source_line": 141
+                    "source_line": 129
                   }
                 ],
                 "else_body": [],
-                "source_line": 140
+                "source_line": 128
               },
               {
                 "op": "var_decl",
@@ -7739,7 +8563,7 @@
                   "elements": [],
                   "element_type": "CodeEntry"
                 },
-                "source_line": 156
+                "source_line": 144
               },
               {
                 "op": "for_range",
@@ -7803,10 +8627,10 @@
                         }
                       ]
                     },
-                    "source_line": 158
+                    "source_line": 146
                   }
                 ],
-                "source_line": 157
+                "source_line": 145
               },
               {
                 "op": "return_stmt",
@@ -7814,10 +8638,10 @@
                   "expr_type": "var_ref",
                   "name": "table"
                 },
-                "source_line": 159
+                "source_line": 147
               }
             ],
-            "source_line": 71
+            "source_line": 59
           },
           {
             "op": "func_def",
@@ -7844,7 +8668,7 @@
                     }
                   ]
                 },
-                "source_line": 162
+                "source_line": 150
               },
               {
                 "op": "if_stmt",
@@ -7862,11 +8686,11 @@
                     "value": {
                       "expr_type": "optional_none"
                     },
-                    "source_line": 164
+                    "source_line": 152
                   }
                 ],
                 "else_body": [],
-                "source_line": 163
+                "source_line": 151
               },
               {
                 "op": "var_decl",
@@ -7879,7 +8703,7 @@
                     "name": "ofl"
                   }
                 },
-                "source_line": 165
+                "source_line": 153
               },
               {
                 "op": "return_stmt",
@@ -7896,10 +8720,10 @@
                     ]
                   }
                 },
-                "source_line": 166
+                "source_line": 154
               }
             ],
-            "source_line": 161
+            "source_line": 149
           },
           {
             "op": "func_def",
@@ -7944,7 +8768,7 @@
                       "value": "",
                       "data_type": "String"
                     },
-                    "source_line": 170
+                    "source_line": 158
                   },
                   {
                     "op": "var_decl",
@@ -7957,7 +8781,7 @@
                         "name": "text"
                       }
                     },
-                    "source_line": 171
+                    "source_line": 159
                   },
                   {
                     "op": "var_decl",
@@ -7968,7 +8792,7 @@
                       "value": 0,
                       "data_type": "Int"
                     },
-                    "source_line": 172
+                    "source_line": 160
                   },
                   {
                     "op": "while_loop",
@@ -8001,7 +8825,7 @@
                             "data_type": "String"
                           }
                         },
-                        "source_line": 174
+                        "source_line": 162
                       },
                       {
                         "op": "compound_assign",
@@ -8012,10 +8836,10 @@
                           "value": 1,
                           "data_type": "Int"
                         },
-                        "source_line": 175
+                        "source_line": 163
                       }
                     ],
-                    "source_line": 173
+                    "source_line": 161
                   },
                   {
                     "op": "return_stmt",
@@ -8026,11 +8850,11 @@
                         "name": "zeros"
                       }
                     },
-                    "source_line": 176
+                    "source_line": 164
                   }
                 ],
                 "else_body": [],
-                "source_line": 169
+                "source_line": 157
               },
               {
                 "op": "var_decl",
@@ -8042,13 +8866,17 @@
                   "value_type": "String",
                   "entries": []
                 },
-                "source_line": 177
+                "source_line": 165
               },
               {
                 "op": "for_each",
                 "item_var": "e",
                 "index_var": null,
                 "collection": "table",
+                "collection_expr": {
+                  "expr_type": "var_ref",
+                  "name": "table"
+                },
                 "body": [
                   {
                     "op": "map_set",
@@ -8069,10 +8897,10 @@
                       },
                       "field_name": "code"
                     },
-                    "source_line": 179
+                    "source_line": 167
                   }
                 ],
-                "source_line": 178
+                "source_line": 166
               },
               {
                 "op": "var_decl",
@@ -8083,7 +8911,7 @@
                   "value": "",
                   "data_type": "String"
                 },
-                "source_line": 180
+                "source_line": 168
               },
               {
                 "op": "var_decl",
@@ -8094,7 +8922,7 @@
                   "value": 0,
                   "data_type": "Int"
                 },
-                "source_line": 181
+                "source_line": 169
               },
               {
                 "op": "while_loop",
@@ -8129,7 +8957,7 @@
                         "name": "i"
                       }
                     },
-                    "source_line": 183
+                    "source_line": 171
                   },
                   {
                     "op": "var_decl",
@@ -8145,7 +8973,7 @@
                         }
                       ]
                     },
-                    "source_line": 184
+                    "source_line": 172
                   },
                   {
                     "op": "if_stmt",
@@ -8163,11 +8991,11 @@
                         "value": {
                           "expr_type": "optional_none"
                         },
-                        "source_line": 186
+                        "source_line": 174
                       }
                     ],
                     "else_body": [],
-                    "source_line": 185
+                    "source_line": 173
                   },
                   {
                     "op": "var_decl",
@@ -8180,7 +9008,7 @@
                         "name": "ob"
                       }
                     },
-                    "source_line": 187
+                    "source_line": 175
                   },
                   {
                     "op": "if_stmt",
@@ -8219,7 +9047,7 @@
                             "default_val": null
                           }
                         },
-                        "source_line": 189
+                        "source_line": 177
                       }
                     ],
                     "else_body": [
@@ -8228,10 +9056,10 @@
                         "value": {
                           "expr_type": "optional_none"
                         },
-                        "source_line": 191
+                        "source_line": 179
                       }
                     ],
-                    "source_line": 188
+                    "source_line": 176
                   },
                   {
                     "op": "compound_assign",
@@ -8242,10 +9070,10 @@
                       "value": 1,
                       "data_type": "Int"
                     },
-                    "source_line": 192
+                    "source_line": 180
                   }
                 ],
-                "source_line": 182
+                "source_line": 170
               },
               {
                 "op": "return_stmt",
@@ -8256,10 +9084,10 @@
                     "name": "bits"
                   }
                 },
-                "source_line": 193
+                "source_line": 181
               }
             ],
-            "source_line": 168
+            "source_line": 156
           },
           {
             "op": "func_def",
@@ -8286,13 +9114,17 @@
                   "value_type": "Int",
                   "entries": []
                 },
-                "source_line": 196
+                "source_line": 184
               },
               {
                 "op": "for_each",
                 "item_var": "e",
                 "index_var": null,
                 "collection": "table",
+                "collection_expr": {
+                  "expr_type": "var_ref",
+                  "name": "table"
+                },
                 "body": [
                   {
                     "op": "if_stmt",
@@ -8322,11 +9154,11 @@
                         "value": {
                           "expr_type": "optional_none"
                         },
-                        "source_line": 199
+                        "source_line": 187
                       }
                     ],
                     "else_body": [],
-                    "source_line": 198
+                    "source_line": 186
                   },
                   {
                     "op": "if_stmt",
@@ -8351,11 +9183,11 @@
                         "value": {
                           "expr_type": "optional_none"
                         },
-                        "source_line": 201
+                        "source_line": 189
                       }
                     ],
                     "else_body": [],
-                    "source_line": 200
+                    "source_line": 188
                   },
                   {
                     "op": "map_set",
@@ -8376,22 +9208,30 @@
                       },
                       "field_name": "ch"
                     },
-                    "source_line": 202
+                    "source_line": 190
                   }
                 ],
-                "source_line": 197
+                "source_line": 185
               },
               {
                 "op": "for_each",
                 "item_var": "e",
                 "index_var": null,
                 "collection": "table",
+                "collection_expr": {
+                  "expr_type": "var_ref",
+                  "name": "table"
+                },
                 "body": [
                   {
                     "op": "for_each",
                     "item_var": "f",
                     "index_var": null,
                     "collection": "table",
+                    "collection_expr": {
+                      "expr_type": "var_ref",
+                      "name": "table"
+                    },
                     "body": [
                       {
                         "op": "if_stmt",
@@ -8453,7 +9293,7 @@
                                 }
                               }
                             },
-                            "source_line": 209
+                            "source_line": 197
                           },
                           {
                             "op": "if_stmt",
@@ -8479,21 +9319,21 @@
                                 "value": {
                                   "expr_type": "optional_none"
                                 },
-                                "source_line": 211
+                                "source_line": 199
                               }
                             ],
                             "else_body": [],
-                            "source_line": 210
+                            "source_line": 198
                           }
                         ],
                         "else_body": [],
-                        "source_line": 208
+                        "source_line": 196
                       }
                     ],
-                    "source_line": 207
+                    "source_line": 195
                   }
                 ],
-                "source_line": 206
+                "source_line": 194
               },
               {
                 "op": "var_decl",
@@ -8504,7 +9344,7 @@
                   "value": "",
                   "data_type": "String"
                 },
-                "source_line": 212
+                "source_line": 200
               },
               {
                 "op": "var_decl",
@@ -8515,7 +9355,7 @@
                   "value": "",
                   "data_type": "String"
                 },
-                "source_line": 213
+                "source_line": 201
               },
               {
                 "op": "var_decl",
@@ -8526,7 +9366,7 @@
                   "value": 0,
                   "data_type": "Int"
                 },
-                "source_line": 214
+                "source_line": 202
               },
               {
                 "op": "while_loop",
@@ -8561,7 +9401,7 @@
                         "name": "i"
                       }
                     },
-                    "source_line": 216
+                    "source_line": 204
                   },
                   {
                     "op": "if_stmt",
@@ -8601,11 +9441,11 @@
                         "value": {
                           "expr_type": "optional_none"
                         },
-                        "source_line": 218
+                        "source_line": 206
                       }
                     ],
                     "else_body": [],
-                    "source_line": 217
+                    "source_line": 205
                   },
                   {
                     "op": "assign",
@@ -8622,7 +9462,7 @@
                         "name": "c"
                       }
                     },
-                    "source_line": 219
+                    "source_line": 207
                   },
                   {
                     "op": "if_stmt",
@@ -8654,7 +9494,7 @@
                           },
                           "default_val": null
                         },
-                        "source_line": 221
+                        "source_line": 209
                       },
                       {
                         "op": "var_decl",
@@ -8670,7 +9510,7 @@
                             }
                           ]
                         },
-                        "source_line": 222
+                        "source_line": 210
                       },
                       {
                         "op": "if_stmt",
@@ -8688,11 +9528,11 @@
                             "value": {
                               "expr_type": "optional_none"
                             },
-                            "source_line": 224
+                            "source_line": 212
                           }
                         ],
                         "else_body": [],
-                        "source_line": 223
+                        "source_line": 211
                       },
                       {
                         "op": "assign",
@@ -8712,7 +9552,7 @@
                             }
                           }
                         },
-                        "source_line": 225
+                        "source_line": 213
                       },
                       {
                         "op": "assign",
@@ -8722,11 +9562,11 @@
                           "value": "",
                           "data_type": "String"
                         },
-                        "source_line": 226
+                        "source_line": 214
                       }
                     ],
                     "else_body": [],
-                    "source_line": 220
+                    "source_line": 208
                   },
                   {
                     "op": "compound_assign",
@@ -8737,10 +9577,10 @@
                       "value": 1,
                       "data_type": "Int"
                     },
-                    "source_line": 227
+                    "source_line": 215
                   }
                 ],
-                "source_line": 215
+                "source_line": 203
               },
               {
                 "op": "if_stmt",
@@ -8766,11 +9606,11 @@
                     "value": {
                       "expr_type": "optional_none"
                     },
-                    "source_line": 229
+                    "source_line": 217
                   }
                 ],
                 "else_body": [],
-                "source_line": 228
+                "source_line": 216
               },
               {
                 "op": "return_stmt",
@@ -8781,10 +9621,10 @@
                     "name": "out"
                   }
                 },
-                "source_line": 230
+                "source_line": 218
               }
             ],
-            "source_line": 195
+            "source_line": 183
           },
           {
             "op": "func_def",
@@ -8811,7 +9651,7 @@
                     }
                   ]
                 },
-                "source_line": 233
+                "source_line": 221
               },
               {
                 "op": "if_stmt",
@@ -8829,11 +9669,11 @@
                     "value": {
                       "expr_type": "optional_none"
                     },
-                    "source_line": 235
+                    "source_line": 223
                   }
                 ],
                 "else_body": [],
-                "source_line": 234
+                "source_line": 222
               },
               {
                 "op": "var_decl",
@@ -8846,7 +9686,7 @@
                     "name": "got"
                   }
                 },
-                "source_line": 236
+                "source_line": 224
               },
               {
                 "op": "return_stmt",
@@ -8864,18 +9704,18 @@
                     }
                   ]
                 },
-                "source_line": 237
+                "source_line": 225
               }
             ],
-            "source_line": 232
+            "source_line": 220
           }
         ],
         "module_files": {
-          "huffcore.meme": "6dced0763f8b69c924daab0adb8259665260f446594f22c8506abfa514e55c22"
+          "huffcore.meme": "c0c20f19bbc4456a1d6368378574d4dc0c06a41ff257d36c054dc04a14533bf6"
         }
       },
       "module_files": {
-        "huffcore.meme": "6dced0763f8b69c924daab0adb8259665260f446594f22c8506abfa514e55c22"
+        "huffcore.meme": "c0c20f19bbc4456a1d6368378574d4dc0c06a41ff257d36c054dc04a14533bf6"
       }
     }
   }
